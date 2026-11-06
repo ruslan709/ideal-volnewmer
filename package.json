@@ -1,0 +1,13 @@
+{
+  "name": "ideal-volnewmer-landing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "media": "bash tools/compress-media.sh",
+    "build": "bash tools/build-dist.sh",
+    "test": "node tests/content.test.mjs && bash tests/media.test.sh && bash tests/send.test.sh && bash tools/build-dist.sh && node tests/layout.test.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}
