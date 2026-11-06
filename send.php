@@ -41,7 +41,10 @@ $name  = trim(preg_replace('/[\r\n\t]+/u', ' ', (string)($_POST['name'] ?? '')))
 $phone = trim(preg_replace('/[\r\n\t]+/u', ' ', (string)($_POST['phone'] ?? '')));
 $digits = preg_replace('/\D+/', '', $phone);
 
-if ($name === '' || mb_strlen($name, 'UTF-8') > 100 || strlen($digits) < 10 || strlen($digits) > 15 || mb_strlen($phone, 'UTF-8') > 30) {
+// Длина в символах без mbstring (на части хостингов расширение выключено)
+$ulen = static function (string $v): int { return (int)preg_match_all('/./us', $v); };
+
+if ($name === '' || $ulen($name) > 100 || strlen($digits) < 10 || strlen($digits) > 15 || $ulen($phone) > 30) {
     respond(422, ['ok' => false, 'error' => 'invalid']);
 }
 
