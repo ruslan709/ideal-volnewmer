@@ -30,7 +30,7 @@ for name in reel_wow_effect_1_procedure_20s reel_before_after_procedure_29s reel
   [ -f "${f%.mp4}.jpg" ] && ok "${f%.mp4}.jpg" || bad "${f%.mp4}.jpg missing"
 done
 
-for name in procedure_face_volnewmer face_lifting_lines body_contouring_lines face_before_after result_mirror procedure_face_neck logo_ideal; do
+for name in procedure_face_volnewmer face_lifting_lines body_contouring_lines face_before_after result_mirror procedure_face_neck; do
   f="images/web/$name.jpg"
   [ -f "$f" ] || { bad "$f missing"; continue; }
   w=$(sips -g pixelWidth "$f" | awk '/pixelWidth/{print $2}'); h=$(sips -g pixelHeight "$f" | awk '/pixelHeight/{print $2}')
@@ -38,6 +38,7 @@ for name in procedure_face_volnewmer face_lifting_lines body_contouring_lines fa
   s=$(stat -f %z "$f"); [ "$s" -lt 409600 ] && ok "$f $((s/1024))KB" || bad "$f $((s/1024))KB >= 400KB"
 done
 
+[ -f images/web/logo_ideal.png ] && sips -g hasAlpha images/web/logo_ideal.png | grep -q yes && ok "logo png with alpha" || bad "images/web/logo_ideal.png (transparent) missing"
 dim() { echo "$(sips -g pixelWidth "$1" | awk '/pixelWidth/{print $2}')x$(sips -g pixelHeight "$1" | awk '/pixelHeight/{print $2}')"; }
 [ -f favicon.ico ] && ok favicon.ico || bad "favicon.ico missing"
 [ -f favicon-32.png ] && [ "$(dim favicon-32.png)" = 32x32 ] && ok favicon-32.png || bad "favicon-32.png"

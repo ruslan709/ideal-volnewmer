@@ -31,10 +31,13 @@ for src in video_reels/reel_*.mp4; do
 done
 
 # 3. Фото: JPEG q80, длинная сторона ≤1400
-for src in images/device_procedures/*.png images/logo/logo_ideal.png; do
+for src in images/device_procedures/*.png; do
   out="images/web/$(basename "$src" .png).jpg"
   need "$out" && sips -s format jpeg -s formatOptions 80 -Z 1400 "$src" --out "$out" >/dev/null && echo "image  $out"
 done
+
+# 3б. Логотип: прозрачный PNG, обрезанный по буквам (белый фон убирается colorkey)
+need images/web/logo_ideal.png && $FF -i images/logo/logo_ideal.png -vf "colorkey=0xFCFCFC:0.12:0.08,crop=1350:370:395:140,scale=640:-1" -pix_fmt rgba images/web/logo_ideal.png && echo "logo   images/web/logo_ideal.png"
 
 # 4. Фавиконки: квадрат с «A» и точкой из логотипа (2149×732, «A» с точкой ≈ x 1120–1520, y 150–550)
 TMP=$(mktemp -d)
