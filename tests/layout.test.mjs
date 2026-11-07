@@ -261,17 +261,19 @@ try {
     await page.close();
   }
   // Телефон: заголовок → цена → кнопка помещаются на первом экране без прокрутки
-  for (const [w, h] of [[360, 640], [375, 667], [390, 844]]) {
+  // …и на десктопе первый экран целиком (кнопка и арка с аппаратом) помещается в окно
+  for (const [w, h] of [[360, 640], [375, 667], [390, 844], [1280, 720], [1366, 768], [1440, 900], [1536, 864], [1920, 1080]]) {
     const page = await browser.newPage(); await localOnly(page);
-    await page.setViewport({ width: w, height: h, isMobile: true, hasTouch: true });
+    await page.setViewport({ width: w, height: h, isMobile: w < 700, hasTouch: w < 700 });
     await page.goto(URL_, { waitUntil: 'networkidle2' });
     await page.evaluate(() => document.fonts.ready);
     await new Promise((r) => setTimeout(r, 1400)); // анимация появления
     const st = await page.evaluate(() => {
       const b = (s) => Math.round(document.querySelector(s).getBoundingClientRect().bottom);
-      return { title: b('.promo__title'), price: b('.price-new'), btn: b('.promo__cta .btn'), vh: innerHeight, cookie: !document.getElementById('cookie').hidden };
+      return { title: b('.promo__title'), price: b('.price-new'), btn: b('.promo__cta .btn'), device: b('.promo__device'), vh: innerHeight, cookie: !document.getElementById('cookie').hidden };
     });
     ok(st.btn <= st.vh, `${w}×${h}: first-screen button below the fold ${JSON.stringify(st)}`);
+    if (w >= 960) ok(st.device + 14 <= st.vh, `${w}×${h}: device arch cut off ${JSON.stringify(st)}`);
     if (w === 360) ok(!st.cookie, 'cookie banner must stay hidden after «Понятно» (remembered)');
     await page.close();
   }

@@ -375,11 +375,20 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
   border-radius: 50%; background: radial-gradient(closest-side, rgb(22 36 58 / .22), transparent);
   filter: blur(4px);
 }
+/* Десктоп: первый экран целиком помещается в окно (под шапкой 40 + 88 = 128px) — размеры зависят и от высоты окна */
 @media (min-width: 960px) {
+  .promo { display: grid; align-items: center; min-height: calc(100svh - 128px); padding-block: clamp(20px, 4.5vh, 88px) clamp(28px, 5.5vh, 96px); }
   .promo__inner { grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); }
-  .promo__title { font-size: clamp(52px, 5.5vw, 82px); max-width: none; width: max-content; }
-  .promo__device { margin-right: 14px; margin-top: clamp(40px, 6vw, 90px); }
-  .price-new { font-size: clamp(104px, 9.6vw, 150px); }
+  .promo__title { font-size: clamp(40px, min(5.5vw, 8.2vh), 82px); max-width: none; width: max-content; }
+  .promo__meta { margin-top: clamp(12px, 2.8vh, 40px); }
+  .promo__offer { margin-top: clamp(12px, 2.8vh, 40px); padding-top: clamp(12px, 2.8vh, 36px); }
+  .price-new { font-size: clamp(76px, min(9.6vw, 14vh), 150px); margin-top: clamp(2px, .8vh, 14px); }
+  .promo__cta { margin-top: clamp(14px, 3.2vh, 44px); }
+  .promo__cta .btn { min-height: clamp(54px, 7.6vh, 72px); }
+  .promo__device {
+    margin: 0 14px 0 auto; width: auto;
+    height: min(calc(100svh - 128px - 2 * clamp(24px, 5vh, 92px) - 28px), 640px); max-width: calc(100% - 28px);
+  }
 }
 @media (prefers-reduced-motion: no-preference) {
   .promo__text > * { animation: rise 1.2s var(--ease) both; }
