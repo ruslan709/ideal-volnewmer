@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 rm -rf dist && mkdir dist
 
 cp index.html send.php .htaccess favicon.ico favicon-32.png apple-touch-icon.png og-image.jpg dist/
-for dir in css js images/web images/doctors images/device_photos video/web video_reels/web; do
+for dir in css js fonts images/web images/doctors images/device_photos video/web video_reels/web; do
   mkdir -p "dist/$dir"
   cp -R "$dir/." "dist/$dir/"
 done

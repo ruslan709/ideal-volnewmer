@@ -30,8 +30,8 @@ try {
     await page.evaluate(() => document.fonts.ready);
     // Кириллические шрифты действительно загрузились (а не системный fallback)
     const fonts = await page.evaluate(async () => {
-      await Promise.all([document.fonts.load('500 40px "Cormorant Garamond"', 'Жж'), document.fonts.load('400 16px "Onest"', 'Жж')]);
-      return { serif: document.fonts.check('500 40px "Cormorant Garamond"', 'Жж'), sans: document.fonts.check('400 16px "Onest"', 'Жж'), h: getComputedStyle(document.querySelector('.h-display')).fontFamily };
+      await Promise.all([document.fonts.load('500 40px "Cormorant Garamond"', 'Жж'), document.fonts.load('300 16px "Manrope"', 'Жж')]);
+      return { serif: document.fonts.check('500 40px "Cormorant Garamond"', 'Жж'), sans: document.fonts.check('300 16px "Manrope"', 'Жж'), h: getComputedStyle(document.querySelector('.h-display')).fontFamily };
     });
     ok(fonts.serif && fonts.sans, `${width}px: cyrillic fonts not loaded ${JSON.stringify(fonts)}`);
     // В тесте прокрутка мгновенная, иначе scrollIntoView ещё анимируется, когда идут проверки
@@ -42,7 +42,7 @@ try {
       const w = window.innerWidth;
       const bad = [];
       document.querySelectorAll('body *').forEach((el) => {
-        if (el.closest('.slider__track, .sprite, .hp, svg')) return;
+        if (el.closest('.slider__track, .row__track, .sprite, .hp, svg')) return;
         const r = el.getBoundingClientRect();
         if (r.width && r.right > w + 1) bad.push(`${el.tagName.toLowerCase()}.${[...el.classList].join('.')} → ${Math.round(r.right)}`);
       });
@@ -65,7 +65,8 @@ try {
       const st = await page.evaluate(() => ({ open: document.getElementById('booking').open, focus: document.activeElement?.name, locked: document.body.classList.contains('is-locked') }));
       ok(st.open && st.focus === 'name' && st.locked, `${width}px: button #${i} → modal ${JSON.stringify(st)}`);
       await page.keyboard.press('Escape');
-      await new Promise((r) => setTimeout(r, 80));
+      // событие close асинхронное — ждём его, а не фиксированные 80 мс (карта в подвале грузит iframe)
+      await page.waitForFunction(() => !document.getElementById('booking').open && !document.body.classList.contains('is-locked'), { timeout: 1500 }).catch(() => {});
       const after = await page.evaluate(() => ({ open: document.getElementById('booking').open, locked: document.body.classList.contains('is-locked'), focus: document.activeElement?.tagName + '.' + document.activeElement?.name }));
       ok(!after.open && !after.locked, `${width}px: Esc must close modal (button #${i}) ${JSON.stringify(after)}`);
     }
@@ -113,6 +114,31 @@ try {
       ok(!stillPlaying, `${width}px: reel kept playing after sliding away`);
     }
 
+    // До/после: горизонтальный ряд, все 7 одной высоты, сколько видно сразу
+    const row = await page.evaluate(() => {
+      const t = document.querySelector('#results .row__track');
+      const vs = [...t.querySelectorAll('video')];
+      // offsetHeight/offsetTop — без учёта масштаба «витрины» (соседние видео визуально уменьшены transform-ом)
+      const hs = vs.map((v) => v.offsetHeight);
+      const tops = vs.map((v) => v.parentElement.offsetTop);
+      const w = vs[0].offsetWidth;
+      return { n: vs.length, sameH: new Set(hs).size === 1, sameTop: new Set(tops).size === 1, visible: +(t.clientWidth / (w + parseFloat(getComputedStyle(t).columnGap))).toFixed(2), scrolls: t.scrollWidth > t.clientWidth };
+    });
+    ok(row.n === 7 && row.sameH && row.sameTop && row.scrolls, `${width}px: results row ${JSON.stringify(row)}`);
+    if (width < 700) ok(row.visible > 1.05 && row.visible < 1.5, `${width}px: phone should show ~1.2 videos, shows ${row.visible}`);
+    if (width >= 1180) ok(row.visible >= 2.9 && row.visible <= 4.2, `${width}px: desktop should show 3–4 videos, shows ${row.visible}`);
+    if (width >= 900) {
+      const rt = await page.$('#results .row__track');
+      await rt.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+      const r0 = await rt.evaluate((el) => el.scrollLeft);
+      await page.click('#results .row__next');
+      await new Promise((r) => setTimeout(r, 700));
+      const r1 = await rt.evaluate((el) => el.scrollLeft);
+      ok(r1 > r0, `${width}px: results arrow did not scroll (${r0} → ${r1})`);
+      await rt.evaluate((el) => { el.scrollLeft = 0; });
+      await new Promise((r) => setTimeout(r, 300));
+    }
+
     // Видео до/после начинает играть в зоне видимости
     await page.$eval('#results video', (v) => v.scrollIntoView({ block: 'center' }));
     await new Promise((r) => setTimeout(r, 800));
@@ -130,6 +156,8 @@ try {
         await Promise.all([...document.images].map((i) => (i.complete ? 0 : new Promise((r) => (i.onload = i.onerror = r)))));
         window.scrollTo(0, 0);
       });
+      await page.evaluate(() => document.querySelectorAll('[data-reveal]').forEach((n) => n.classList.add('is-in')));
+      await new Promise((r) => setTimeout(r, 1300));
       await page.screenshot({ path: `${SHOTS}/page-${width}.png`, fullPage: true });
       // Chrome обрезает fullPage после ~16k px — блоки 10–13 снимаем отдельно
       for (const sel of ['#price', '#faq', 'footer']) {

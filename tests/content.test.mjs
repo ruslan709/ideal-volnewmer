@@ -51,10 +51,10 @@ for (const f of forbidden) ok(!pageText.includes(f), `developer note leaked: «$
 const count = (h, re) => (h.match(re) || []).length;
 const byId = (id) => { const i = html.indexOf(`id="${id}"`); if (i < 0) return ''; const n = html.slice(i).search(/data-block="/); const rest = html.slice(i); const j = rest.indexOf('data-block="', rest.indexOf('data-block="') + 1); return j < 0 ? rest : rest.slice(0, j); };
 ok(count(section(4), /<video\b/g) === 7, `block 4 must have 7 videos, has ${count(section(4), /<video\b/g)}`);
-ok(!/data-slider/.test(section(4)), 'block 4 must not be a slider');
+ok(!/data-slider/.test(section(4)) && /data-row/.test(section(4)), 'block 4 must be a horizontal row (data-row), not the stars slider');
 ok(count(section(7), /<video\b/g) === 5, `block 7 must have 5 videos, has ${count(section(7), /<video\b/g)}`);
 ok(/data-slider/.test(section(7)), 'block 7 must be a slider');
-ok(count(section(7), /\[TODO: имя звезды\]/g) === 5, 'block 7 needs 5 star-name TODO captions');
+ok(count(section(7), /class="slide__name"/g) === 5, 'block 7 needs 5 star-name captions');
 ok(count(section(12), /<details\b/g) === 13, `FAQ must have 13 details, has ${count(section(12), /<details\b/g)}`);
 const benefits = section(9).split(/class="benefit[ "]/).slice(1);
 ok(benefits.length === 10, `block 9 must have 10 .benefit, has ${benefits.length}`);

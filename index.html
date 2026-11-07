@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Volnewmer — Студия IDEAL, Москва</title>
   <meta name="description" content="Volnewmer — РЕВОЛЮЦИОННАЯ ПЕРЕДОВАЯ АППАРАТНАЯ МЕТОДИКА ДЛЯ ПРОФИЛАКТИКИ И КОРРЕКЦИИ ПРОЯВЛЕНИЯ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ. Студия IDEAL Москва Цветной бульвар 26">
-  <meta name="theme-color" content="#F2F7FB">
+  <meta name="theme-color" content="#F6F5F1">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Volnewmer — Студия IDEAL, Москва">
@@ -17,9 +17,9 @@
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Onest:wght@400;500;600&display=swap&subset=cyrillic">
+  <link rel="preload" href="fonts/CormorantGaramond-latin-e99b45.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/Manrope-cyrillic-9ae50d.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -48,18 +48,23 @@
       <p class="topbar__item">Студия IDEAL Москва Цветной бульвар 26</p>
       <p class="topbar__item">Ежедневно с 9 до 20 часов</p>
       <details class="studios-menu" data-studios="header">
-        <summary>Наши студии <span aria-hidden="true">▾</span></summary>
-        <ul class="studios-menu__list"></ul>
+        <summary>Наши студии <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+        <div class="studios-menu__panel">
+          <p class="studios-menu__title">Наши студии</p>
+          <ul class="studios-menu__list"></ul>
+        </div>
       </details>
     </div>
   </div>
-  <div class="container header__main">
-    <a class="header__logo" href="#promo" aria-label="IDEAL — наверх"><img src="images/web/logo_ideal.png" alt="IDEAL" width="640" height="175"></a>
-    <a class="header__phone" href="tel:+74959922345">
-      <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
-      <span>Телефон <span class="nowrap">8 495 992-23-45</span></span>
-    </a>
-    <button class="btn btn--sm" type="button" data-open-booking>ЗАПИСАТЬСЯ</button>
+  <div class="header__bar">
+    <div class="container header__main">
+      <a class="header__logo" href="#promo" aria-label="IDEAL — наверх"><img src="images/web/logo_ideal.png" alt="IDEAL" width="640" height="175"></a>
+      <a class="header__phone" href="tel:+74959922345">
+        <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+        <span class="header__phone-text"><span class="header__phone-label">Телефон </span><span class="nowrap">8 495 992-23-45</span></span>
+      </a>
+      <button class="btn btn--sm" type="button" data-open-booking>ЗАПИСАТЬСЯ</button>
+    </div>
   </div>
 </header>
 
@@ -67,37 +72,38 @@
 
 <!-- Блок 1. Первый экран (акция) -->
 <section class="promo" id="promo" data-block="1">
-  <svg class="promo__arcs" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
-    <path class="arc arc--1" d="M120 560C140 360 260 210 470 150"/>
-    <path class="arc arc--2" d="M210 580C230 420 320 300 500 250"/>
-    <path class="arc arc--3" d="M300 590C320 480 380 400 520 360"/>
-    <path class="arc-head" d="M452 132l22 16-26 8"/>
-    <path class="arc-head" d="M482 234l22 16-26 8"/>
-    <path class="arc-head" d="M502 344l22 16-26 8"/>
-    <circle class="promo__dot" cx="520" cy="80" r="14"/>
-  </svg>
   <div class="container promo__inner">
-    <h1 class="promo__brand">Volnewmer</h1>
-    <p class="promo__zone">ВСЕ ЛИЦО + ШЕЯ</p>
-    <p class="promo__date">ДО 11.11.2026</p>
-    <p class="promo__price">Стоимость <strong class="price-new">29900</strong> вместо <s class="price-old">59900</s> ДЛЯ МОДЕЛЕЙ</p>
-    <button class="btn btn--lg" type="button" data-open-booking>ЗАПИСАТЬСЯ</button>
+    <div class="promo__text">
+      <div class="promo__meta">
+        <p class="promo__zone">ВСЕ ЛИЦО + ШЕЯ</p>
+        <p class="promo__date">ДО 11.11.2026</p>
+      </div>
+      <h1 class="promo__brand">Volnewmer</h1>
+      <div class="promo__offer">
+        <p class="promo__price"><span class="promo__label">Стоимость</span> <strong class="price-new">29900</strong> <span class="promo__was"><span>вместо <s class="price-old">59900</s></span> <span class="promo__for">ДЛЯ МОДЕЛЕЙ</span></span></p>
+      </div>
+      <button class="btn btn--lg" type="button" data-open-booking>ЗАПИСАТЬСЯ</button>
+    </div>
+    <figure class="promo__device" aria-hidden="true">
+      <img src="images/device_photos/device_side_nobg.png" alt="" width="402" height="497" fetchpriority="high">
+      <span class="promo__floor"></span>
+    </figure>
   </div>
 </section>
 
 <!-- Блок 2. О методике -->
 <section class="section method" id="method" data-block="2">
   <div class="container method__grid">
-    <figure class="arch arch--wide method__photo">
+    <figure class="arch arch--wide method__photo" data-reveal>
       <img src="images/web/procedure_face_volnewmer.jpg" alt="Процедура на аппарате Volnewmer: врач-косметолог и пациентка" width="1254" height="1254" loading="lazy">
     </figure>
-    <div class="method__text">
+    <div class="method__text" data-reveal>
       <p class="brand-word">Volnewmer</p>
-      <h2 class="h-section">РЕВОЛЮЦИОННАЯ ПЕРЕДОВАЯ АППАРАТНАЯ МЕТОДИКА ДЛЯ ПРОФИЛАКТИКИ И КОРРЕКЦИИ ПРОЯВЛЕНИЯ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ</h2>
-      <p class="method__for">ДЛЯ ЛИЦА И ТЕЛА</p>
+      <h2 class="h-section caps">РЕВОЛЮЦИОННАЯ ПЕРЕДОВАЯ АППАРАТНАЯ МЕТОДИКА ДЛЯ ПРОФИЛАКТИКИ И КОРРЕКЦИИ ПРОЯВЛЕНИЯ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ</h2>
+      <p class="method__for caps-sm">ДЛЯ ЛИЦА И ТЕЛА</p>
     </div>
   </div>
-  <div class="container method__gallery">
+  <div class="container method__gallery" data-reveal>
     <figure class="tile tile--device"><img src="images/device_photos/device_front_nobg.png" alt="Аппарат Volnewmer" width="274" height="500" loading="lazy"></figure>
     <figure class="tile"><img src="images/web/face_lifting_lines.jpg" alt="Лицо с линиями лифтинга" width="1280" height="853" loading="lazy"></figure>
     <figure class="tile"><img src="images/web/body_contouring_lines.jpg" alt="Тело с линиями лифтинга" width="1024" height="1280" loading="lazy"></figure>
@@ -107,8 +113,8 @@
 <!-- Блок 3. ЕСЛИ : -->
 <section class="section section--mist if" id="if" data-block="3">
   <div class="container if__grid">
-    <div class="if__text">
-      <h2 class="h-display">ЕСЛИ :</h2>
+    <div class="if__text" data-reveal>
+      <h2 class="h-display caps">ЕСЛИ :</h2>
       <ul class="dot-list">
         <li>Овал лица "поплыл", черты стали менее четкими, особенно в нижней части и в зоне подбородка.</li>
         <li>Кожа стала тонкой, дряблой, вялой, пропала плотность и тонус — как будто лицо "сползает" вниз.</li>
@@ -121,24 +127,32 @@
     <figure class="arch if__photo">
       <img src="images/web/face_before_after.jpg" alt="Одно лицо: половина до, половина после" width="1254" height="1254" loading="lazy">
     </figure>
-    <p class="if__verdict">ПРОЙДИТЕ ПРОЦЕДУРУ НА АППАРАТЕ Volnewmer И ЭТО ЗНАЧИТЕЛЬНО МИНИМИЗИРУЕТ ПРОЯВЛЕНИЕ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ</p>
+    <p class="if__verdict" data-reveal>ПРОЙДИТЕ ПРОЦЕДУРУ НА АППАРАТЕ Volnewmer И ЭТО ЗНАЧИТЕЛЬНО МИНИМИЗИРУЕТ ПРОЯВЛЕНИЕ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ</p>
   </div>
 </section>
 
-<!-- Блок 4. Результаты до/после — вертикальный список, НЕ слайдер -->
+<!-- Блок 4. Результаты до/после — горизонтальный ряд (scroll-snap), стрелки на десктопе, свайп на телефоне -->
 <section class="section results" id="results" data-block="4">
   <div class="container">
-    <h2 class="h-display center">РЕЗУЛЬТАТЫ ДО/ПОСЛЕ</h2>
-    <ol class="results__list">
-      <li><video class="reel" src="video/web/before_after_face_01.mp4" poster="video/web/before_after_face_01.jpg" muted playsinline loop preload="metadata" width="720" height="1280"></video></li>
-      <li><video class="reel" src="video/web/before_after_face_02.mp4" poster="video/web/before_after_face_02.jpg" muted playsinline loop preload="metadata" width="720" height="1280"></video></li>
-      <li><video class="reel" src="video/web/before_after_face_03.mp4" poster="video/web/before_after_face_03.jpg" muted playsinline loop preload="metadata" width="720" height="1280"></video></li>
-      <li><video class="reel" src="video/web/before_after_face_04.mp4" poster="video/web/before_after_face_04.jpg" muted playsinline loop preload="metadata" width="720" height="1280"></video></li>
-      <li><video class="reel" src="video/web/before_after_face_05.mp4" poster="video/web/before_after_face_05.jpg" muted playsinline loop preload="metadata" width="720" height="1280"></video></li>
-      <li><video class="reel" src="video/web/before_after_face_06.mp4" poster="video/web/before_after_face_06.jpg" muted playsinline loop preload="metadata" width="720" height="1280"></video></li>
-      <li><video class="reel" src="video/web/before_after_face_07.mp4" poster="video/web/before_after_face_07.jpg" muted playsinline loop preload="metadata" width="720" height="1280"></video></li>
-    </ol>
-    <div class="center"><button class="btn" type="button" data-open-booking>Записаться на процедуру</button></div>
+    <h2 class="h-display caps center" data-reveal>РЕЗУЛЬТАТЫ <span class="nowrap">ДО/ПОСЛЕ</span></h2>
+    <div class="row" data-row>
+      <ol class="row__track">
+        <li class="row__item"><video class="reel" src="video/web/before_after_face_01.mp4" poster="video/web/before_after_face_01.jpg" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после, видео 1 из 7"></video></li>
+        <li class="row__item"><video class="reel" src="video/web/before_after_face_02.mp4" poster="video/web/before_after_face_02.jpg" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после, видео 2 из 7"></video></li>
+        <li class="row__item"><video class="reel" src="video/web/before_after_face_03.mp4" poster="video/web/before_after_face_03.jpg" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после, видео 3 из 7"></video></li>
+        <li class="row__item"><video class="reel" src="video/web/before_after_face_04.mp4" poster="video/web/before_after_face_04.jpg" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после, видео 4 из 7"></video></li>
+        <li class="row__item"><video class="reel" src="video/web/before_after_face_05.mp4" poster="video/web/before_after_face_05.jpg" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после, видео 5 из 7"></video></li>
+        <li class="row__item"><video class="reel" src="video/web/before_after_face_06.mp4" poster="video/web/before_after_face_06.jpg" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после, видео 6 из 7"></video></li>
+        <li class="row__item"><video class="reel" src="video/web/before_after_face_07.mp4" poster="video/web/before_after_face_07.jpg" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после, видео 7 из 7"></video></li>
+      </ol>
+      <div class="row__controls">
+        <button class="row__nav row__prev" type="button" aria-label="Предыдущее видео"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <span class="row__progress" aria-hidden="true"><span class="row__bar"></span></span>
+        <span class="row__count" aria-hidden="true"><span class="row__cur">01</span> / 07</span>
+        <button class="row__nav row__next" type="button" aria-label="Следующее видео"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+    <div class="center results__cta"><button class="btn" type="button" data-open-booking>Записаться на процедуру</button></div>
   </div>
 </section>
 
@@ -149,7 +163,7 @@
       <h2 class="h-display">Аппарат Volnewmer</h2>
       <figure class="device__photo"><img src="images/device_photos/device_side_nobg.png" alt="Аппарат Volnewmer с манипулами" width="402" height="497" loading="lazy"></figure>
     </div>
-    <ol class="numbered">
+    <ol class="numbered" data-reveal>
       <li><span class="numbered__n">01</span><p>Подходит даже для самых чувствительных зон, в том числе периорбитальной области;</p></li>
       <li><span class="numbered__n">02</span><p>Имеет четыре сменных насадки и две манипулы для разных задач;</p></li>
       <li><span class="numbered__n">03</span><p>Аппарат оборудован эффективной системой защиты от перегрева;</p></li>
@@ -166,8 +180,8 @@
     <figure class="arch prevention__photo">
       <img src="images/web/result_mirror.jpg" alt="Девушка улыбается своему отражению в зеркале" width="1254" height="1254" loading="lazy">
     </figure>
-    <div class="prevention__text">
-      <p class="h-display">ЭФФЕКТИВНО ДЛЯ ПРОФИЛАКТИКИ СТАРЕНИЯ</p>
+    <div class="prevention__text" data-reveal>
+      <p class="h-display caps">ЭФФЕКТИВНО ДЛЯ ПРОФИЛАКТИКИ СТАРЕНИЯ</p>
       <button class="btn" type="button" data-open-booking>Записаться на процедуру</button>
     </div>
   </div>
@@ -176,29 +190,29 @@
 <!-- Блок 7. Звёзды — СЛАЙДЕР -->
 <section class="section section--mist stars" id="stars" data-block="7">
   <div class="container">
-    <h2 class="h-section stars__title">ПРОЦЕДУРУ ОМОЛОЖЕНИЯ НА АППАРАТЕ VOLNEWMER ВЫБИРАЮТ МНОГИЕ РОССИЙСКИЕ ЗВЕЗДЫ</h2>
+    <h2 class="h-section caps stars__title" data-reveal>ПРОЦЕДУРУ ОМОЛОЖЕНИЯ НА АППАРАТЕ VOLNEWMER ВЫБИРАЮТ МНОГИЕ РОССИЙСКИЕ ЗВЕЗДЫ</h2>
     <div class="slider" data-slider>
       <button class="slider__nav slider__prev" type="button" aria-label="Назад"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
       <ul class="slider__track">
         <li class="slide">
           <video class="reel" src="video_reels/web/reel_wow_effect_1_procedure_20s.mp4" poster="video_reels/web/reel_wow_effect_1_procedure_20s.jpg" muted controls playsinline preload="metadata" width="720" height="1280"></video>
-          <p class="slide__caption"><span class="todo">[TODO: имя звезды]</span></p>
+          <p class="slide__caption"><span class="slide__name">Виктория Боня</span></p>
         </li>
         <li class="slide">
           <video class="reel" src="video_reels/web/reel_before_after_procedure_29s.mp4" poster="video_reels/web/reel_before_after_procedure_29s.jpg" muted controls playsinline preload="metadata" width="720" height="1280"></video>
-          <p class="slide__caption"><span class="todo">[TODO: имя звезды]</span></p>
+          <p class="slide__caption"><span class="slide__name">Ирина Агибалова</span></p>
         </li>
         <li class="slide">
           <video class="reel" src="video_reels/web/reel_monopolar_procedure_28s.mp4" poster="video_reels/web/reel_monopolar_procedure_28s.jpg" muted controls playsinline preload="metadata" width="720" height="960"></video>
-          <p class="slide__caption"><span class="todo">[TODO: имя звезды]</span></p>
+          <p class="slide__caption"><span class="slide__name">Оксана Самойлова</span></p>
         </li>
         <li class="slide">
           <video class="reel" src="video_reels/web/reel_face_neck_procedure_159s.mp4" poster="video_reels/web/reel_face_neck_procedure_159s.jpg" controls playsinline preload="metadata" width="720" height="1280"></video>
-          <p class="slide__caption"><span class="todo">[TODO: имя звезды]</span></p>
+          <p class="slide__caption"><span class="slide__name">Ксения Бородина</span></p>
         </li>
         <li class="slide">
           <video class="reel" src="video_reels/web/reel_client_review_89s.mp4" poster="video_reels/web/reel_client_review_89s.jpg" controls playsinline preload="metadata" width="720" height="1280"></video>
-          <p class="slide__caption"><span class="todo">[TODO: имя звезды]</span></p>
+          <p class="slide__caption"><span class="slide__name">Анна Шурочкина</span> <span class="slide__alias">Нюша</span></p>
         </li>
       </ul>
       <button class="slider__nav slider__next" type="button" aria-label="Вперёд"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
@@ -234,19 +248,19 @@
 <!-- Блок 9. Инфографика преимуществ -->
 <section class="section section--mist benefits" id="benefits" data-block="9">
   <div class="container">
-    <ul class="benefits__grid">
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-no-pain"/></svg><p>НЕТ БОЛИ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-shield"/></svg><p>НЕТ ТРАВМАТИЧНОСТИ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-calendar"/></svg><p>НЕТ РЕАБИЛИТАЦИИ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-spark"/></svg><p>РЕЗУЛЬТАТ ЗАМЕТЕН СРАЗУ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-growth"/></svg><p>ЭФФЕКТ НАРАСТАЕТ С ТЕЧЕНИЕМ ВРЕМЕНИ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-list"/></svg><p>МИНИМУМ ПРОТИВОПОКАЗАНИЙ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-combine"/></svg><p>МОЖНО СОВМЕЩАТЬ С ДРУГИМИ КОСМЕТОЛОГИЧЕСКИМИ ПРОЦЕДУРАМИ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-lift"/></svg><p>ЭФФЕКТИВНО ДЛЯ КОРРЕКЦИИ УЖЕ ИМЕЮЩИХСЯ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-hourglass"/></svg><p>И ДЛЯ ПРОФИЛАКТИКИ СТАРЕНИЯ</p></li>
-      <li class="benefit"><svg class="benefit__icon" aria-hidden="true"><use href="#i-figure"/></svg><p>РАБОТАЕТ ПО ТЕЛУ И ЛИЦУ</p></li>
+    <ul class="benefits__grid" data-reveal>
+      <li class="benefit" style="--i:0"><svg class="benefit__icon" aria-hidden="true"><use href="#i-no-pain"/></svg><p>НЕТ БОЛИ</p></li>
+      <li class="benefit" style="--i:1"><svg class="benefit__icon" aria-hidden="true"><use href="#i-shield"/></svg><p>НЕТ ТРАВМАТИЧНОСТИ</p></li>
+      <li class="benefit" style="--i:2"><svg class="benefit__icon" aria-hidden="true"><use href="#i-calendar"/></svg><p>НЕТ РЕАБИЛИТАЦИИ</p></li>
+      <li class="benefit" style="--i:3"><svg class="benefit__icon" aria-hidden="true"><use href="#i-spark"/></svg><p>РЕЗУЛЬТАТ ЗАМЕТЕН СРАЗУ</p></li>
+      <li class="benefit" style="--i:4"><svg class="benefit__icon" aria-hidden="true"><use href="#i-growth"/></svg><p>ЭФФЕКТ НАРАСТАЕТ С ТЕЧЕНИЕМ ВРЕМЕНИ</p></li>
+      <li class="benefit" style="--i:5"><svg class="benefit__icon" aria-hidden="true"><use href="#i-list"/></svg><p>МИНИМУМ ПРОТИВОПОКАЗАНИЙ</p></li>
+      <li class="benefit" style="--i:6"><svg class="benefit__icon" aria-hidden="true"><use href="#i-combine"/></svg><p>МОЖНО СОВМЕЩАТЬ С ДРУГИМИ КОСМЕТОЛОГИЧЕСКИМИ ПРОЦЕДУРАМИ</p></li>
+      <li class="benefit" style="--i:7"><svg class="benefit__icon" aria-hidden="true"><use href="#i-lift"/></svg><p>ЭФФЕКТИВНО ДЛЯ КОРРЕКЦИИ УЖЕ ИМЕЮЩИХСЯ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ</p></li>
+      <li class="benefit" style="--i:8"><svg class="benefit__icon" aria-hidden="true"><use href="#i-hourglass"/></svg><p>И ДЛЯ ПРОФИЛАКТИКИ СТАРЕНИЯ</p></li>
+      <li class="benefit" style="--i:9"><svg class="benefit__icon" aria-hidden="true"><use href="#i-figure"/></svg><p>РАБОТАЕТ ПО ТЕЛУ И ЛИЦУ</p></li>
     </ul>
-    <figure class="benefits__photo">
+    <figure class="benefits__photo" data-reveal>
       <img src="images/web/procedure_face_neck.jpg" alt="Процедура на лице и шее на аппарате Volnewmer" width="655" height="468" loading="lazy">
     </figure>
   </div>
@@ -254,7 +268,7 @@
 
 <!-- Блок 10. Стоимость -->
 <section class="section price" id="price" data-block="10">
-  <div class="container">
+  <div class="container price__grid">
     <h2 class="h-display">Стоимость</h2>
     <div class="price__text prose">
       <p>Мы всегда проводим процедуру омоложения лица на аппарате Volnewmer монополярный RF по протоколу MAXIMUM 600 импульсов (лицо + шея) цена 59900 рублей</p>
@@ -262,7 +276,7 @@
       <p>До 11 действует особое предложение для моделей</p>
       <p>ВСЕ ЛИЦО + ШЕЯ 600 импульсов стоят 29900 рублей</p>
     </div>
-    <ul class="price__cards">
+    <ul class="price__cards" data-reveal>
       <li class="price-card">
         <p class="price-card__name">Лицо + шея</p>
         <p class="price-card__proto">MAXIMUM 600 импульсов</p>
@@ -279,8 +293,10 @@
         <p class="price-card__sum"><s>59&nbsp;900&nbsp;₽</s> <strong>29&nbsp;900&nbsp;₽</strong></p>
       </li>
     </ul>
-    <p class="price__note">* <span class="todo">[TODO: текст сноски *]</span></p>
-    <button class="btn" type="button" data-open-booking>Записаться на процедуру</button>
+    <div class="price__foot">
+      <p class="price__note">* <span class="todo">[TODO: текст сноски *]</span></p>
+      <button class="btn" type="button" data-open-booking>Записаться на процедуру</button>
+    </div>
   </div>
 </section>
 
@@ -292,7 +308,7 @@
       <button class="btn btn--ghost" type="button" aria-expanded="false" aria-controls="about-text">УЗНАТЬ <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button>
       <div class="reveal-more__panel" id="about-text" hidden>
         <div class="reveal-more__inner prose">
-          <p>Студия IDEAL – ЭТО ПРОФЕССИОНАЛЫ, КОТОРЫЕ ЛЮБЯТ СВОЕ ДЕЛО И ДЕЛАЮТ ЕГО ОТЛИЧНО.</p>
+          <p class="about__lead">Студия IDEAL – ЭТО ПРОФЕССИОНАЛЫ, КОТОРЫЕ ЛЮБЯТ СВОЕ ДЕЛО И ДЕЛАЮТ ЕГО ОТЛИЧНО.</p>
           <p>У нас работают квалифицированные, дипломированные врачи косметологи, которые знают, как достичь хорошего результата, хотят и умеют делать Вас, наших Клиентов – еще более красивыми, эстетичными и конечно - счастливыми.</p>
           <p>Наша уютная Студия IDEAL находится в самом центре Москвы. Мы имеем действующую медицинскую лицензию.</p>
           <p>У нас уютно, стерильно, безопасно и комфортно.</p>
@@ -300,20 +316,20 @@
         </div>
       </div>
     </div>
-    <!-- ФИО и фото временные — заменить, когда клиент пришлёт (images/doctors/) -->
-    <ul class="doctors">
+    <!-- Фото врачей прислал клиент (images/doctors/doctor-1..3.jpg). ФИО пока временные — заменить, когда клиент пришлёт; порядок фото = порядок ФИО -->
+    <ul class="doctors" data-reveal>
       <li class="doctor">
-        <figure class="arch doctor__photo"><img src="images/doctors/doctor-placeholder.svg" alt="" width="300" height="380" loading="lazy"><figcaption>фото врача</figcaption></figure>
+        <figure class="arch doctor__photo"><img src="images/doctors/doctor-1.jpg" alt="Иванова Анна Сергеевна, врач-косметолог" width="452" height="573" loading="lazy"></figure>
         <p class="doctor__name">Иванова Анна Сергеевна</p>
         <p class="doctor__role">Врач-косметолог</p>
       </li>
       <li class="doctor">
-        <figure class="arch doctor__photo"><img src="images/doctors/doctor-placeholder.svg" alt="" width="300" height="380" loading="lazy"><figcaption>фото врача</figcaption></figure>
+        <figure class="arch doctor__photo"><img src="images/doctors/doctor-2.jpg" alt="Петрова Елена Викторовна, врач-косметолог" width="200" height="253" loading="lazy"></figure>
         <p class="doctor__name">Петрова Елена Викторовна</p>
         <p class="doctor__role">Врач-косметолог</p>
       </li>
       <li class="doctor">
-        <figure class="arch doctor__photo"><img src="images/doctors/doctor-placeholder.svg" alt="" width="300" height="380" loading="lazy"><figcaption>фото врача</figcaption></figure>
+        <figure class="arch doctor__photo"><img src="images/doctors/doctor-3.jpg" alt="Смирнова Ольга Андреевна, врач-косметолог" width="335" height="424" loading="lazy"></figure>
         <p class="doctor__name">Смирнова Ольга Андреевна</p>
         <p class="doctor__role">Врач-косметолог</p>
       </li>
@@ -324,8 +340,8 @@
 <!-- Блок 12. Вопрос – ответ -->
 <section class="section faq" id="faq" data-block="12">
   <div class="container faq__inner">
-    <h2 class="h-display">ВОПРОС – ОТВЕТ</h2>
-    <div class="faq__list">
+    <div class="faq__head"><h2 class="h-display caps">ВОПРОС – ОТВЕТ</h2></div>
+    <div class="faq__list" data-reveal>
       <details class="faq__item"><summary><span class="faq__q">ЧТО ТАКОЕ «МОДЕЛЬ» И КАКИЕ ОБЯЗАТЕЛЬСТВА У «МОДЕЛИ»?</span></summary><div class="faq__answer prose">
         <p>Модель – это Клиент Студии, которой оказывается услуга в полном объеме по сниженной цене. Модель – позволяет проводить фото и видео съемку оказания услуги, а также публиковать полученные материалы в социальных сетях Студии в сети интернет. Также Модель обязуется прислать свое фото Администратору социальных сетей Студии через 3 месяца после проведения процедуры.</p>
       </div></details>
@@ -378,8 +394,17 @@
 <!-- Блок 13. Подвал -->
 <footer class="site-footer" data-block="13">
   <div class="container">
-    <h2 class="h-section footer__title">Наши студии</h2>
-    <ul class="studios-grid" data-studios="footer"></ul>
+    <div class="studios" data-reveal>
+      <h2 class="h-section footer__title">Наши студии</h2>
+      <ul class="studios-grid" data-studios="footer"></ul>
+      <div class="studios-map" data-studios-map>
+        <div class="studios-map__frame"></div>
+        <div class="studios-map__bar">
+          <p class="studios-map__city"></p>
+          <a class="studios-map__open" href="https://yandex.ru/maps/" target="_blank" rel="noopener">Открыть в Яндекс Картах <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </div>
     <div class="footer__main">
       <img class="footer__logo" src="images/web/logo_ideal.png" alt="IDEAL" width="640" height="175" loading="lazy">
       <div class="footer__contacts">
