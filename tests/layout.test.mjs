@@ -24,7 +24,8 @@ try {
     const errors = [], notFound = [];
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (m) => m.type() === 'error' && !/send\.php|500|Failed to load resource/.test(m.text()) && errors.push(m.text()));
-    page.on('response', (r) => r.status() === 404 && notFound.push(r.url()));
+    // только наши файлы: внутренние запросы виджета Яндекс Карт (трекеры и т.п.) нас не касаются
+    page.on('response', (r) => r.status() === 404 && r.url().startsWith(`http://127.0.0.1:${PORT}/`) && notFound.push(r.url()));
     await page.setViewport({ width, height: width < 700 ? 760 : 900, isMobile: width < 700, hasTouch: width < 700 });
     await page.goto(URL_, { waitUntil: 'networkidle2' });
     await page.evaluate(() => document.fonts.ready);

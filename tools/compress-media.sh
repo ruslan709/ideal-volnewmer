@@ -39,6 +39,47 @@ done
 # 3б. Логотип: прозрачный PNG, обрезанный по буквам (белый фон убирается colorkey)
 need images/web/logo_ideal.png && $FF -i images/logo/logo_ideal.png -vf "colorkey=0xFCFCFC:0.12:0.08,crop=1350:370:395:140,scale=640:-1" -pix_fmt rgba images/web/logo_ideal.png && echo "logo   images/web/logo_ideal.png"
 
+# 3в. Быстрая загрузка: AVIF + WebP в нескольких ширинах (браузер сам берёт нужный размер через srcset).
+#     Фото на странице не шире ~520px (кроме procedure_face_neck — до ~1170px), поэтому 480/800/1200.
+#     JPEG из шага 3 остаётся запасным вариантом для старых браузеров.
+RTMP=$(mktemp -d)
+for src in images/device_procedures/*.png; do
+  name=$(basename "$src" .png); sw=$(sips -g pixelWidth "$src" | awk '/pixelWidth/{print $2}')
+  for w in 480 800 1200; do
+    [ "$w" -gt "$sw" ] && w=$sw
+    base="images/web/$name-$w"
+    if need "$base.avif" || need "$base.webp"; then
+      sips -s format png --resampleWidth "$w" "$src" --out "$RTMP/r.png" >/dev/null
+      cwebp -quiet -q 76 -m 6 "$RTMP/r.png" -o "$base.webp"
+      avifenc -q 55 -s 4 -j all "$RTMP/r.png" "$base.avif" >/dev/null
+      echo "resp   $base.{avif,webp}"
+    fi
+  done
+done
+# Аппарат без фона: WebP/AVIF с прозрачностью вместо PNG
+for src in images/device_photos/*.png; do
+  base="${src%.png}"
+  if need "$base.webp" || need "$base.avif"; then
+    cwebp -quiet -q 82 -alpha_q 90 -m 6 "$src" -o "$base.webp"
+    avifenc -q 62 -s 4 -j all "$src" "$base.avif" >/dev/null
+    echo "device $base.{avif,webp}"
+  fi
+done
+# Врачи
+for src in images/doctors/doctor-*.jpg; do
+  need "${src%.jpg}.webp" && cwebp -quiet -q 78 -m 6 "$src" -o "${src%.jpg}.webp" && echo "doctor ${src%.jpg}.webp"
+done
+# Логотип: на странице ≤132px, WebP 280px (для ретины)
+if need images/web/logo_ideal-280.webp; then
+  sips --resampleWidth 280 images/web/logo_ideal.png --out "$RTMP/logo.png" >/dev/null
+  cwebp -quiet -q 90 -alpha_q 100 -m 6 "$RTMP/logo.png" -o images/web/logo_ideal-280.webp && echo "logo   images/web/logo_ideal-280.webp"
+fi
+# Постеры видео: WebP (грузятся сразу при открытии страницы, поэтому их вес важен)
+for jpg in video/web/*.jpg video_reels/web/*.jpg; do
+  need "${jpg%.jpg}.webp" && cwebp -quiet -q 70 -m 6 "$jpg" -o "${jpg%.jpg}.webp" && echo "poster ${jpg%.jpg}.webp"
+done
+rm -rf "$RTMP"
+
 # 4. Фавиконки: квадрат с «A» и точкой из логотипа (2149×732, «A» с точкой ≈ x 1120–1520, y 150–550)
 TMP=$(mktemp -d)
 if need apple-touch-icon.png || need favicon-32.png || need favicon.ico; then

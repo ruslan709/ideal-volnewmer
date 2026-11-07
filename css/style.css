@@ -43,6 +43,7 @@ body {
 }
 body.is-locked { overflow: hidden; }
 img, video, svg { display: block; max-width: 100%; }
+picture { display: contents; } /* обёртка для AVIF/WebP не должна менять раскладку */
 img { height: auto; }
 p, h1, h2, h3, ul, ol, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
