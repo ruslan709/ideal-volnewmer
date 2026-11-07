@@ -1,6 +1,6 @@
 <?php
 /**
- * Приём заявок с формы «ЗАПИСАТЬСЯ» (fetch POST: name, phone).
+ * Приём заявок с формы «ЗАПИСАТЬСЯ» (fetch POST: name, phone, consent=1).
  * Отправляет письмо и/или сообщение в Telegram. Ответ — JSON { ok: bool, error?: string }.
  *
  * НАСТРОЙКА: заполните хотя бы один канал ниже.
@@ -43,6 +43,11 @@ $digits = preg_replace('/\D+/', '', $phone);
 
 // Длина в символах без mbstring (на части хостингов расширение выключено)
 $ulen = static function (string $v): int { return (int)preg_match_all('/./us', $v); };
+
+// Согласие на обработку персональных данных (152-ФЗ) — обязательно
+if ((string)($_POST['consent'] ?? '') !== '1') {
+    respond(422, ['ok' => false, 'error' => 'no_consent']);
+}
 
 if ($name === '' || $ulen($name) > 100 || strlen($digits) < 10 || strlen($digits) > 15 || $ulen($phone) > 30) {
     respond(422, ['ok' => false, 'error' => 'invalid']);

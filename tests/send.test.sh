@@ -17,11 +17,12 @@ check() { # name expected_code expected_substring curl-args...
 }
 
 check "GET → 405"           405 '"ok":false'
-check "empty name → 422"    422 'invalid'          --data-urlencode 'name=' --data-urlencode 'phone=123'
-check "short phone → 422"   422 'invalid'          --data-urlencode 'name=Анна' --data-urlencode 'phone=12345'
-check "long name → 422"     422 'invalid'          --data-urlencode "name=$(printf 'а%.0s' $(seq 1 101))" --data-urlencode 'phone=+7 999 123-45-67'
+check "no consent → 422"    422 'no_consent'       --data-urlencode 'name=Анна' --data-urlencode 'phone=+7 999 123-45-67'
+check "empty name → 422"    422 'invalid'          --data-urlencode 'consent=1' --data-urlencode 'name=' --data-urlencode 'phone=123'
+check "short phone → 422"   422 'invalid'          --data-urlencode 'consent=1' --data-urlencode 'name=Анна' --data-urlencode 'phone=12345'
+check "long name → 422"     422 'invalid'          --data-urlencode 'consent=1' --data-urlencode "name=$(printf 'а%.0s' $(seq 1 101))" --data-urlencode 'phone=+7 999 123-45-67'
 check "honeypot → fake ok"  200 '"ok":true'        --data-urlencode 'name=Анна' --data-urlencode 'phone=+7 999 123-45-67' --data-urlencode 'website=spam'
-check "not configured → 500" 500 'not_configured'  --data-urlencode 'name=Анна' --data-urlencode 'phone=+7 999 123-45-67'
+check "not configured → 500" 500 'not_configured'  --data-urlencode 'consent=1' --data-urlencode 'name=Анна' --data-urlencode 'phone=+7 999 123-45-67'
 
 php -l send.php | grep -q 'No syntax errors' && echo "ok   php -l" || { echo "FAIL php -l"; fail=1; }
 

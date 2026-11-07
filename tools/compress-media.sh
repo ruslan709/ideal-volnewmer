@@ -80,6 +80,24 @@ for jpg in video/web/*.jpg video_reels/web/*.jpg; do
 done
 rm -rf "$RTMP"
 
+# 3г. Лицензии: исходники images/licenses/src/license_NN.(png|jpg) →
+#     images/licenses/license_NN.jpg (для лайтбокса, ≤1600px) + превью license_NN-thumb.{avif,webp} (520px)
+LTMP=$(mktemp -d)
+for src in images/licenses/src/license_*.png images/licenses/src/license_*.jpg; do
+  [ -f "$src" ] || continue
+  name=$(basename "${src%.*}"); out="images/licenses/$name"
+  if need "$out.jpg"; then
+    sips -s format jpeg -s formatOptions 82 -Z 1600 "$src" --out "$out.jpg" >/dev/null && echo "lic    $out.jpg"
+  fi
+  if need "$out-thumb.webp" || need "$out-thumb.avif"; then
+    sips -s format png --resampleWidth 520 "$src" --out "$LTMP/t.png" >/dev/null
+    cwebp -quiet -q 74 -m 6 "$LTMP/t.png" -o "$out-thumb.webp"
+    avifenc -q 52 -s 4 -j all "$LTMP/t.png" "$out-thumb.avif" >/dev/null
+    echo "lic    $out-thumb.{avif,webp}"
+  fi
+done
+rm -rf "$LTMP"
+
 # 4. Фавиконки: квадрат с «A» и точкой из логотипа (2149×732, «A» с точкой ≈ x 1120–1520, y 150–550)
 TMP=$(mktemp -d)
 if need apple-touch-icon.png || need favicon-32.png || need favicon.ico; then

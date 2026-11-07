@@ -305,7 +305,13 @@
     if (!dialog || !form) return;
     var status = form.querySelector('.booking__status');
     var submit = form.querySelector('[type="submit"]');
+    var consent = form.elements.consent;
     var opener = null;
+    var sending = false;
+    // Без галочки согласия на обработку ПДн кнопка «Отправить» неактивна (галочка по умолчанию снята)
+    function syncSubmit() { submit.disabled = sending || !(consent && consent.checked); }
+    if (consent) consent.addEventListener('change', syncSubmit);
+    syncSubmit();
 
     function open(e) {
       opener = e.currentTarget;
@@ -351,7 +357,7 @@
         status.textContent = 'Укажите имя и телефон.';
         return;
       }
-      submit.disabled = true;
+      sending = true; submit.classList.add('is-sending'); syncSubmit();
       status.className = 'booking__status';
       status.textContent = 'Отправляем…';
       fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
@@ -361,6 +367,7 @@
             status.className = 'booking__status is-ok';
             status.textContent = 'Заявка отправлена, мы вам перезвоним';
             form.reset();
+            syncSubmit();
           } else {
             throw new Error('send failed');
           }
@@ -369,7 +376,169 @@
           status.className = 'booking__status is-error';
           status.textContent = 'Не удалось отправить заявку. Позвоните нам: 8 495 992-23-45';
         })
-        .then(function () { submit.disabled = false; });
+        .then(function () { sending = false; submit.classList.remove('is-sending'); syncSubmit(); });
+    });
+  }
+
+  /* ——— Меню: бургер на весь экран (<1200px), подменю «Вопросы», подсветка текущего раздела,
+     ссылки на популярные вопросы FAQ (прокрутка + автоматическое раскрытие) ——— */
+  function openFaqItem(item, scroll) {
+    if (!item) return;
+    item.open = true;
+    if (scroll) item.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function samePath(p) {
+    var n = function (x) { return x.replace(/index\.html$/, ''); };
+    return n(p) === n(location.pathname);
+  }
+
+  function initNav() {
+    var root = document.documentElement;
+    var nav = document.getElementById('site-nav');
+    var burger = document.querySelector('.burger');
+    var bar = document.querySelector('.header__bar');
+    if (!nav) return;
+    var desktop = window.matchMedia('(min-width: 1200px)');
+
+    function setOpen(open) {
+      if (!burger) return;
+      if (open) nav.style.setProperty('--nav-top', Math.round(bar.getBoundingClientRect().bottom + 16) + 'px');
+      root.classList.toggle('nav-open', open);
+      document.body.classList.toggle('is-locked', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+    }
+    if (burger) burger.addEventListener('click', function () { setOpen(!root.classList.contains('nav-open')); });
+    desktop.addEventListener('change', function (e) { if (e.matches) setOpen(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      if (root.classList.contains('nav-open')) { setOpen(false); burger.focus(); }
+      nav.querySelectorAll('.nav__item--sub.is-open').forEach(function (li) { li.classList.remove('is-open'); li.querySelector('.nav__sub-toggle').setAttribute('aria-expanded', 'false'); });
+    });
+
+    // Подменю «Вопросы»: на десктопе раскрывается при наведении, кнопка-стрелка — для клавиатуры и тача
+    nav.querySelectorAll('.nav__sub-toggle').forEach(function (btn) {
+      var li = btn.closest('.nav__item--sub');
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = !li.classList.contains('is-open');
+        li.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('click', function (e) {
+        if (desktop.matches && !li.contains(e.target)) { li.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
+      });
+    });
+
+    // Клик по пункту: закрыть меню; для вопросов FAQ — раскрыть нужный
+    nav.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href]');
+      if (!a) return;
+      var url = new URL(a.href, location.href);
+      var samePage = samePath(url.pathname);
+      setOpen(false);
+      nav.querySelectorAll('.nav__item--sub.is-open').forEach(function (li) { li.classList.remove('is-open'); });
+      if (!samePage || !url.hash) return;
+      var target = document.getElementById(url.hash.slice(1));
+      if (!target) return;
+      e.preventDefault();
+      if (target.classList.contains('faq__item')) openFaqItem(target, true);
+      else target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      if (history.replaceState) history.replaceState(null, '', url.hash);
+    });
+
+    // Пришли по ссылке index.html#faq-process с другой страницы — раскрыть вопрос
+    if (location.hash) {
+      var fromHash = document.getElementById(location.hash.slice(1));
+      if (fromHash && fromHash.classList.contains('faq__item')) setTimeout(function () { openFaqItem(fromHash, true); }, 60);
+    }
+
+    // Подсветка текущего раздела: последний раздел, чья верхняя граница выше 35% экрана
+    var links = [].slice.call(nav.querySelectorAll('.nav__link')).filter(function (a) {
+      var u = new URL(a.href, location.href);
+      return u.hash && samePath(u.pathname) && document.getElementById(u.hash.slice(1));
+    });
+    if (!links.length) return;
+    var targets = links.map(function (a) { return document.getElementById(new URL(a.href, location.href).hash.slice(1)); });
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var line = window.innerHeight * 0.35, current = -1;
+      targets.forEach(function (t, i) { if (t.getBoundingClientRect().top <= line) current = i; });
+      // в самом низу страницы — «Контакты»
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = targets.length - 1;
+      links.forEach(function (a, i) {
+        a.classList.toggle('is-current', i === current);
+        if (i === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  /* ——— Лицензии: превью грузятся, только если файл есть (иначе остаётся плейсхолдер «скан документа»);
+     клик — лайтбокс: крестик, Esc, клик по фону, стрелки ← → ——— */
+  function initLicenses() {
+    var cards = [].slice.call(document.querySelectorAll('[data-doc]'));
+    var box = document.getElementById('lightbox');
+    if (!cards.length || !box) return;
+    var img = box.querySelector('.lightbox__img');
+    var cap = box.querySelector('.lightbox__caption');
+    var count = box.querySelector('.lightbox__count');
+    // data-doc ставит tools/build-pages.mjs только документам, у которых есть скан; полный скан грузится при открытии
+    var ready = cards, index = 0, opener = null;
+    cards.forEach(function (card, i) {
+      card.querySelector('.doc__open').addEventListener('click', function (e) { opener = e.currentTarget; show(i); });
+    });
+
+    function render() {
+      var card = ready[index];
+      img.src = card.getAttribute('data-full');
+      img.alt = card.querySelector('.doc__title').textContent;
+      cap.textContent = card.querySelector('.doc__title').textContent;
+      count.textContent = (index + 1) + ' / ' + ready.length;
+    }
+    function show(i) {
+      if (i < 0) return;
+      index = i; render();
+      if (typeof box.showModal === 'function') box.showModal(); else box.setAttribute('open', '');
+      document.body.classList.add('is-locked');
+    }
+    function step(d) { index = (index + d + ready.length) % ready.length; render(); }
+    function close() { if (box.open && box.close) box.close(); else box.removeAttribute('open'); }
+    box.addEventListener('close', function () { document.body.classList.remove('is-locked'); img.removeAttribute('src'); if (opener) opener.focus(); });
+    box.addEventListener('click', function (e) { if (e.target === box || e.target.classList.contains('lightbox__stage')) close(); });
+    box.querySelector('.lightbox__close').addEventListener('click', close);
+    box.querySelector('.lightbox__prev').addEventListener('click', function () { step(-1); });
+    box.querySelector('.lightbox__next').addEventListener('click', function () { step(1); });
+    document.addEventListener('keydown', function (e) {
+      if (!box.hasAttribute('open')) return;
+      if (e.key === 'ArrowLeft') step(-1);
+      else if (e.key === 'ArrowRight') step(1);
+      else if (e.key === 'Escape') close();
+    });
+    // свайп на телефоне
+    var x0 = null;
+    box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+    });
+  }
+
+  /* ——— Плашка cookie: показываем, пока не нажали «Понятно» ——— */
+  function initCookie() {
+    var box = document.getElementById('cookie');
+    if (!box) return;
+    var KEY = 'ideal-cookie-ok';
+    try { if (localStorage.getItem(KEY) === '1') return; } catch (e) { /* приватный режим — просто показываем */ }
+    box.hidden = false;
+    box.querySelector('.cookie__ok').addEventListener('click', function () {
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      box.hidden = true;
     });
   }
 
@@ -382,4 +551,7 @@
   document.querySelectorAll('[data-slider]').forEach(function (r) { initSlider(r, 'slider', '.slide'); });
   document.querySelectorAll('[data-row]').forEach(function (r) { initSlider(r, 'row', '.row__item'); });
   initBooking();
+  initNav();
+  initCookie();
+  initLicenses();
 })();

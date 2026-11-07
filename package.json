@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "media": "bash tools/compress-media.sh",
+    "pages": "node tools/build-pages.mjs",
     "build": "bash tools/build-dist.sh",
-    "test": "node tests/content.test.mjs && bash tests/media.test.sh && bash tests/send.test.sh && bash tools/build-dist.sh && node tests/layout.test.mjs"
+    "test": "node tools/build-pages.mjs && node tests/content.test.mjs && bash tests/media.test.sh && bash tests/send.test.sh && bash tools/build-dist.sh && node tests/layout.test.mjs"
   },
   "devDependencies": {
     "puppeteer-core": "^23.11.1"

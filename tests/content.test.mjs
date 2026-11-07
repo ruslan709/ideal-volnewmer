@@ -63,7 +63,34 @@ ok(count(section(11), /class="doctor[ "]/g) === 3, 'block 11 must have 3 .doctor
 for (const n of [0, 1, 4, 6, 10, 13]) ok(/data-open-booking/.test(section(n)), `block ${n} needs a booking button`);
 for (const n of [8, 11]) ok(/<div[^>]+hidden[^>]*>|<div[^>]*class="reveal-more__panel"[^>]*hidden/.test(section(n)) && /aria-expanded="false"/.test(section(n)), `block ${n}: text must be hidden behind УЗНАТЬ`);
 for (const n of [0, 13]) ok(section(n).includes('href="tel:+74959922345"'), `block ${n}: phone must be tel: link`);
-ok(/<s\b[^>]*>59900<\/s>/.test(section(1)), 'block 1: 59900 must be struck through');
+ok(/<s\b[^>]*>59(?:&nbsp;| | )900/.test(section(1)), 'block 1: 59 900 must be struck through');
+
+// Правки заказчика: красный только на первом экране, меню, страницы, согласие
+const redUses = css.split('\n').filter((l) => /var\(--accent-red/.test(l)).map((l) => l.trim().split(/\s*\{/)[0]);
+ok(redUses.length > 0 && redUses.every((sel) => /^\.(promo|price-old|price-new|btn--red)\b/.test(sel) || /^(content|background|color|box-shadow|border)/.test(sel)), `--accent-red used outside first screen: ${redUses.join(' | ')}`);
+ok(!/accent-red|btn--red/.test(html.replace(section(1), '').replace(/<!--[\s\S]*?-->/g, '')), 'red classes used outside block 1');
+for (const h of ['#method', '#results', '#device', '#price', '#about', '#faq', '#faq-process', '#faq-contra', 'licenses.html', '#contacts'])
+  ok(section(0).includes(`href="${h}"`), `menu link missing: ${h}`);
+for (const id of ['method', 'results', 'device', 'price', 'about', 'faq', 'faq-process', 'faq-contra', 'contacts']) ok(html.includes(`id="${id}"`), `anchor target missing: #${id}`);
+ok(/<input[^>]*name="consent"[^>]*type="checkbox"(?![^>]*checked)[^>]*required/.test(html), 'consent checkbox: required and not pre-checked');
+ok(/<button[^>]*type="submit"[^>]*disabled/.test(html), 'submit disabled by default (until consent)');
+ok(/href="privacy\.html"/.test(section(13)) && /href="licenses\.html"/.test(section(13)), 'footer links to licenses.html and privacy.html');
+for (const f of ['licenses.html', 'privacy.html']) {
+  ok(existsSync(new URL(f, root)), `${f} missing (npm run pages)`);
+  if (!existsSync(new URL(f, root))) continue;
+  const pg = readFileSync(new URL(f, root), 'utf8');
+  ok(/class="site-header"/.test(pg) && /class="site-footer"/.test(pg) && /href="privacy\.html"/.test(pg), `${f}: needs header, footer, privacy link`);
+  ok(!/thismywebsite|Михайлов/.test(pg), `${f}: generator placeholders left`);
+  for (const m of pg.matchAll(/\b(?:src|href|srcset)="([^"#][^"]*)"/g)) {
+    const p = m[1].split(' ')[0];
+    if (/^(https?:|tel:|mailto:)/.test(p)) continue;
+    ok(existsSync(new URL(p.split('#')[0], root)), `${f}: missing file ${p}`);
+  }
+}
+const lic = existsSync(new URL('licenses.html', root)) ? readFileSync(new URL('licenses.html', root), 'utf8') : '';
+ok((lic.match(/class="doc"/g) || []).length === 10, 'licenses.html: 10 documents');
+const pol = existsSync(new URL('privacy.html', root)) ? readFileSync(new URL('privacy.html', root), 'utf8') : '';
+ok((pol.match(/class="legal__h"/g) || []).length === 12 && /<table class="legal__table"/.test(pol) && /ПРОВЕРИТЬ С ЗАКАЗЧИКОМ/.test(pol) && !/философские/.test(pol), 'privacy.html: 12 sections, table 6 replaced');
 ok(/<s\b[^>]*>59[  ]|<s\b[^>]*>59&nbsp;900/.test(section(10)), 'block 10: promo card old price struck through');
 
 // Порядок рилсов
