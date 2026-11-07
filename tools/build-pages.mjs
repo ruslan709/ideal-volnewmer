@@ -71,13 +71,20 @@ const cards = docs.map((d, i) => {
 writeFileSync(new URL('licenses.html', root), page('pages/licenses.html', read('pages/licenses.html').replace(/<!-- page:.*?-->\n/, '').replace('<!-- docs -->', cards)));
 
 /* ——— Политика ——— */
-const TODO = (t) => `<span class="todo">[TODO: ${t}]</span>`;
-const fill = (s) => esc(s)
-  .replace(/\{OPERATOR\}/g, TODO('полное название юрлица/ИП студии IDEAL, ИНН, ОГРН, юр. адрес'))
-  .replace(/\{SITE\}/g, TODO('домен сайта'))
-  .replace(/\{EMAIL\}/g, TODO('email студии для обращений по персональным данным'));
-const table6 = `<p class="legal__check"><span class="todo">[ПРОВЕРИТЬ С ЗАКАЗЧИКОМ]</span></p>
-        <div class="legal__table-wrap"><table class="legal__table">
+// Реквизиты Оператора — из выписки из реестра лицензий (images/licenses/src/license_08.png)
+const OPERATOR = 'Обществом с ограниченной ответственностью «Обновление» (ООО «Обновление», ИНН 7714970906, ОГРН 1177746085967, адрес места нахождения: 121248, г. Москва, наб. Тараса Шевченко, д. 3, корп. 3, эт. 1, пом. 1, ком. 21; Студия IDEAL)';
+const SITE = 'Студии IDEAL';
+// Отдельной почты для обращений по ПДн нет — обращения принимаются письменно по адресу Оператора и по телефону
+const CONTACT = 'по адресу: 121248, г. Москва, наб. Тараса Шевченко, д. 3, корп. 3, эт. 1, пом. 1, ком. 21, или по телефону 8 495 992-23-45';
+const fill = (s) => esc(s
+  .replace(/предпринимаемые \{OPERATOR\}/g, `предпринимаемые ${OPERATOR}`)
+  .replace(/веб-сайта \{SITE\}/g, `веб-сайта ${SITE}`)
+  .replace(/по сетевому адресу \{SITE\}/g, `(сайт Студии IDEAL, на котором размещена настоящая Политика)`)
+  .replace(/на адрес электронной почты Оператора \{EMAIL\}/g, CONTACT)
+  .replace(/посредством электронной почты на электронный адрес Оператора \{EMAIL\}/g, CONTACT)
+  .replace(/с помощью электронной почты \{EMAIL\}/g, CONTACT)
+  .replace(/по адресу \{SITE\}\/privacy\.html/g, 'на сайте Студии IDEAL на странице «Политика конфиденциальности»'));
+const table6 = `<div class="legal__table-wrap"><table class="legal__table">
           <tbody>
             <tr><th scope="row">Цель обработки</th><td>обработка заявок на запись на процедуру и обратная связь с Пользователем</td></tr>
             <tr><th scope="row">Персональные данные</th><td>имя, номер телефона</td></tr>
@@ -109,4 +116,5 @@ for (const raw of read('pages/privacy.src.txt').split('\n')) {
 if (list) html += '        </ul>\n';
 writeFileSync(new URL('privacy.html', root), page('pages/privacy.html', read('pages/privacy.html').replace(/<!-- page:.*?-->\n/, '').replace('<!-- policy -->\n', html)));
 
+if (/\{(OPERATOR|SITE|EMAIL)\}|TODO|ПРОВЕРИТЬ/.test(html)) throw new Error('privacy: остались заглушки');
 console.log(`pages: licenses.html (${docs.length} док., без скана: ${missing.length ? missing.join(', ') : 'нет'}), privacy.html`);

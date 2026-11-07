@@ -850,6 +850,7 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
   display: grid; gap: 28px; align-items: center;
   margin-top: clamp(72px, 8vw, 112px); padding-top: 40px; border-top: 1px solid var(--hair);
 }
+.footer__main > picture { display: block; } /* обёртка AVIF/WebP — отдельная ячейка сетки, иначе логотип и кнопка разъезжаются */
 .footer__logo { width: 132px; }
 .footer__contacts { font-size: 15px; color: var(--ink-2); line-height: 1.8; }
 .footer__contacts a { text-decoration: none; font-weight: 400; }
@@ -862,6 +863,7 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 .footer__links { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 10px; }
 @media (min-width: 900px) {
   .footer__main { grid-template-columns: auto 1fr auto; gap: 64px; }
+  .footer__main .btn { justify-self: end; }
 }
 
 /* ——— Модальное окно записи ——— */
