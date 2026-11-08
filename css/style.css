@@ -422,6 +422,37 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
   .method__gallery { grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
   .method__gallery .tile:nth-child(2) { margin-top: 72px; }
 }
+/* Ролик до/после и место под фото тела в галерее блока 2 — вертикальные 9:16, чтобы «ДО» и «ПОСЛЕ» не обрезались */
+.tile--video, .tile--slot { aspect-ratio: 9 / 16; }
+.tile--video video, .ba-card__video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ——— Примеры «до/после» по одному по ходу страницы (слева / справа / по центру) ——— */
+.ba-single { display: flex; align-items: center; gap: clamp(20px, 4vw, 56px); margin-top: clamp(56px, 8vw, 112px); }
+.ba-single--right { flex-direction: row-reverse; }
+.ba-single--center { flex-direction: column; margin-top: clamp(40px, 5vw, 64px); }
+.ba-single .ba-card { flex: none; width: min(46vw, 300px); }
+.ba-card { aspect-ratio: 9 / 16; overflow: hidden; border-radius: var(--r); background: var(--ice-soft); box-shadow: 0 30px 50px -36px rgb(22 36 58 / .45); }
+.ba-single__cap { display: grid; gap: 10px; max-width: 280px; }
+.ba-single--right .ba-single__cap { text-align: right; justify-items: end; }
+.ba-single--center .ba-single__cap { text-align: center; justify-items: center; }
+.ba-single__tag { display: flex; align-items: center; gap: 14px; font: 500 11.5px/1.4 var(--sans); letter-spacing: .24em; color: var(--gold-text); }
+.ba-single__tag::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
+.ba-single--right .ba-single__tag { flex-direction: row-reverse; }
+.ba-single--center .ba-single__tag::before { display: none; }
+.ba-single__text { font: 300 clamp(20px, 2.2vw, 30px)/1.2 var(--serif); color: var(--ink); }
+@media (min-width: 900px) {
+  .ba-single--left { padding-left: 8%; }
+  .ba-single--right { padding-right: 8%; }
+  .ba-single .ba-card { width: 300px; }
+  .ba-single--center .ba-card { width: 340px; }
+}
+/* Место под фото тела до/после (заказчик пришлёт 3 фото) */
+.ba-card--slot, .tile--slot { display: grid; place-items: center; background: linear-gradient(180deg, var(--white), var(--ice-soft)); border: 1px solid var(--gold-line); box-shadow: none; }
+.ba-slot { display: grid; justify-items: center; gap: 8px; padding: 24px; text-align: center; position: relative; width: calc(100% - 28px); height: calc(100% - 28px); align-content: center; border: 1px dashed var(--gold-line); }
+.ba-slot::before { content: ''; position: absolute; left: 14px; right: 14px; top: 50%; height: 1px; background: var(--gold-line); }
+.ba-slot__tag { font: 500 11px/1.4 var(--sans); letter-spacing: .24em; color: var(--gold-text); }
+.ba-slot__title { font: 300 clamp(30px, 3vw, 40px)/1.1 var(--serif); color: var(--ink); background: linear-gradient(180deg, transparent 0, var(--white) 30%, var(--white) 70%, transparent 100%); padding-inline: 12px; position: relative; }
+.ba-slot__note { font-size: 12.5px; color: var(--muted); letter-spacing: .04em; }
 @media (min-width: 1000px) {
   .method__grid { grid-template-columns: .8fr 1fr; }
   .method__photo { margin-inline: 14px 0; }
@@ -568,13 +599,13 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 /* ——— Блок 8. Об аппарате ——— */
 .about-device__grid { display: grid; gap: clamp(56px, 6vw, 96px); align-items: center; }
 .about-device__photo {
-  display: grid; place-items: end center;
-  width: min(340px, calc(100% - 28px)); aspect-ratio: 3 / 4.1; margin-inline: auto; padding-top: 36px;
+  position: relative; /* картинка внутри абсолютная — высота рамки не зависит от загрузки фото (иначе страница прыгает) */
+  width: min(340px, calc(100% - 28px)); aspect-ratio: 3 / 4.1; margin-inline: auto;
   border-radius: 999px 999px 0 0;
   background: linear-gradient(180deg, var(--ice) 0%, var(--ice-soft) 70%, var(--pearl) 100%);
   outline: 1px solid var(--gold-line); outline-offset: 12px;
 }
-.about-device__photo img { height: 88%; width: auto; margin-bottom: 6%; filter: drop-shadow(0 24px 22px rgb(22 36 58 / .16)); }
+.about-device__photo img { position: absolute; left: 50%; bottom: 5%; transform: translateX(-50%); height: 80%; width: auto; max-width: none; filter: drop-shadow(0 24px 22px rgb(22 36 58 / .16)); }
 @media (min-width: 1000px) { .about-device__grid { grid-template-columns: .75fr 1.25fr; } }
 
 /* ——— Блок 9. Инфографика: сетка в 1px-линиях, без карточек ——— */

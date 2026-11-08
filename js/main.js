@@ -547,7 +547,7 @@
   initReveal();
   initExpanders();
   initFaq();
-  initInViewVideos('#results video');
+  initInViewVideos('#results video, [data-ba] video');
   document.querySelectorAll('[data-slider]').forEach(function (r) { initSlider(r, 'slider', '.slide'); });
   document.querySelectorAll('[data-row]').forEach(function (r) { initSlider(r, 'row', '.row__item'); });
   initBooking();

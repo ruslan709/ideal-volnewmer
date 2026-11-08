@@ -50,8 +50,13 @@ for (const f of forbidden) ok(!pageText.includes(f), `developer note leaked: «$
 // 4. Счётчики
 const count = (h, re) => (h.match(re) || []).length;
 const byId = (id) => { const i = html.indexOf(`id="${id}"`); if (i < 0) return ''; const n = html.slice(i).search(/data-block="/); const rest = html.slice(i); const j = rest.indexOf('data-block="', rest.indexOf('data-block="') + 1); return j < 0 ? rest : rest.slice(0, j); };
-ok(count(section(4), /<video\b/g) === 7, `block 4 must have 7 videos, has ${count(section(4), /<video\b/g)}`);
-ok(!/data-slider/.test(section(4)) && /data-row/.test(section(4)), 'block 4 must be a horizontal row (data-row), not the stars slider');
+// Слайдер до/после временно скрыт (<template>), новые ролики до/после раскиданы по странице по одному
+ok(/<template id="results-slider">[\s\S]*data-row[\s\S]*<\/template>/.test(section(4)) && count(section(4).match(/<template[\s\S]*<\/template>/)?.[0] || '', /<video\b/g) === 7, 'block 4: old slider kept inside <template id="results-slider"> with 7 videos');
+const baVideos = [...html.matchAll(/video\/web\/(ba_\d\d)\.mp4/g)].map((m) => m[1]);
+ok(new Set(baVideos).size === 7, `all 7 new before/after videos placed once each: ${baVideos.join(',')}`);
+ok(count(html, /class="ba-single ba-single--/g) + count(html, /class="container ba-single ba-single--/g) >= 7, 'before/after examples scattered across page');
+ok(count(html, /data-body-slot="\d"/g) === 3, '3 places for body before/after photos');
+ok(!/face_lifting_lines|body_contouring_lines/.test(html), 'line drawings replaced by before/after');
 ok(count(section(7), /<video\b/g) === 5, `block 7 must have 5 videos, has ${count(section(7), /<video\b/g)}`);
 ok(/data-slider/.test(section(7)), 'block 7 must be a slider');
 ok(count(section(7), /class="slide__name"/g) === 5, 'block 7 needs 5 star-name captions');

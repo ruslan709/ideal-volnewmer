@@ -127,36 +127,13 @@ try {
       ok(!stillPlaying, `${width}px: reel kept playing after sliding away`);
     }
 
-    // До/после: горизонтальный ряд, все 7 одной высоты, сколько видно сразу
-    const row = await page.evaluate(() => {
-      const t = document.querySelector('#results .row__track');
-      const vs = [...t.querySelectorAll('video')];
-      // offsetHeight/offsetTop — без учёта масштаба «витрины» (соседние видео визуально уменьшены transform-ом)
-      const hs = vs.map((v) => v.offsetHeight);
-      const tops = vs.map((v) => v.parentElement.offsetTop);
-      const w = vs[0].offsetWidth;
-      return { n: vs.length, sameH: new Set(hs).size === 1, sameTop: new Set(tops).size === 1, visible: +(t.clientWidth / (w + parseFloat(getComputedStyle(t).columnGap))).toFixed(2), scrolls: t.scrollWidth > t.clientWidth };
-    });
-    ok(row.n === 7 && row.sameH && row.sameTop && row.scrolls, `${width}px: results row ${JSON.stringify(row)}`);
-    if (width < 700) ok(row.visible > 1.05 && row.visible < 1.5, `${width}px: phone should show ~1.2 videos, shows ${row.visible}`);
-    if (width >= 1180) ok(row.visible >= 2.9 && row.visible <= 4.2, `${width}px: desktop should show 3–4 videos, shows ${row.visible}`);
-    if (width >= 900) {
-      const rt = await page.$('#results .row__track');
-      await rt.evaluate((el) => el.scrollIntoView({ block: 'center' }));
-      const r0 = await rt.evaluate((el) => el.scrollLeft);
-      await page.click('#results .row__next');
-      await new Promise((r) => setTimeout(r, 700));
-      const r1 = await rt.evaluate((el) => el.scrollLeft);
-      ok(r1 > r0, `${width}px: results arrow did not scroll (${r0} → ${r1})`);
-      await rt.evaluate((el) => { el.scrollLeft = 0; });
-      await new Promise((r) => setTimeout(r, 300));
-    }
-
-    // Видео до/после начинает играть в зоне видимости
-    await page.$eval('#results video', (v) => v.scrollIntoView({ block: 'center' }));
+    // До/после: ролики раскиданы по странице — каждый начинает играть, когда попадает в экран, и не обрезается
+    const baCount = await page.$$eval('[data-ba] video', (v) => v.length);
+    ok(baCount === 7, `${width}px: 7 scattered before/after videos, has ${baCount}`);
+    await page.$eval('#results [data-ba] video', (v) => v.scrollIntoView({ block: 'center' }));
     await new Promise((r) => setTimeout(r, 800));
-    const inView = await page.$eval('#results video', (v) => ({ playing: !v.paused, rs: v.readyState, top: Math.round(v.getBoundingClientRect().top), h: Math.round(v.getBoundingClientRect().height), sy: Math.round(scrollY) }));
-    ok(inView.playing, `${width}px: before/after video should play when in view ${JSON.stringify(inView)}`);
+    const inView = await page.$eval('#results [data-ba] video', (v) => ({ playing: !v.paused, ratio: +(v.getBoundingClientRect().height / v.getBoundingClientRect().width).toFixed(2) }));
+    ok(inView.playing && Math.abs(inView.ratio - 16 / 9) < 0.05, `${width}px: before/after video should play in view, 9:16 ${JSON.stringify(inView)}`);
 
     // ——— Правки заказчика — на свежей вкладке (длинный прогон с видео перегружает headless-Chrome) ———
     const pg = await browser.newPage(); await localOnly(pg);

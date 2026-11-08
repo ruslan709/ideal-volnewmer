@@ -19,6 +19,21 @@ for src in video/before_after_face_0?.mp4; do
   need "${out%.mp4}.jpg" && $FF -i "$out" -frames:v 1 -q:v 3 "${out%.mp4}.jpg"
 done
 
+# 1б. Новые до/после (video/new_video, 1080×1920) → video/web/ba_NN.mp4 (720×1280, без звука) + постер WebP.
+#     Номер — по алфавиту имени файла. Постер с 3-й секунды: видно и «ДО», и «ПОСЛЕ».
+n=0
+for src in video/new_video/*.mp4; do
+  [ -f "$src" ] || continue
+  n=$((n+1)); out=$(printf "video/web/ba_%02d.mp4" $n)
+  if need "$out"; then
+    echo "ba     $src → $out"
+    $FF -i "$src" -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 26 -pix_fmt yuv420p -movflags +faststart -an "$out"
+  fi
+  if need "${out%.mp4}.webp"; then
+    $FF -ss 3 -i "$out" -frames:v 1 -q:v 3 "${out%.mp4}.jpg" && cwebp -quiet -q 70 -m 6 "${out%.mp4}.jpg" -o "${out%.mp4}.webp"
+  fi
+done
+
 # 2. Рилсы: ширина ≤720, два длинных со звуком (AAC 96k), остальные без звука
 for src in video_reels/reel_*.mp4; do
   name=$(basename "$src" .mp4); out="video_reels/web/$name.mp4"
