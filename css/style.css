@@ -428,14 +428,16 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 .tile--video video, .ba-card__video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* ——— До/после «коллажем»: карточка с роликом в белой рамке наезжает на угол фото блока ——— */
-.ba-anchor { position: relative; justify-self: center; width: 100%; padding-bottom: clamp(90px, 26%, 200px); }
+.ba-anchor { position: relative; justify-self: center; width: 100%; padding-bottom: clamp(140px, 40%, 200px); }
+@media (min-width: 900px) { .ba-anchor { padding-bottom: clamp(90px, 26%, 200px); } }
 .ba-anchor > figure:first-child { margin-inline: auto; justify-self: auto; }
 .ba-anchor--if { max-width: 468px; }
 .ba-anchor--prevention { max-width: 488px; }
 .ba-anchor--device { max-width: 428px; }
 .ba-anchor--about-device { max-width: 368px; }
 .ba-anchor--benefits { padding-bottom: clamp(140px, 22vw, 330px); }
-.ba-float { position: absolute; bottom: 0; z-index: 2; width: clamp(150px, 48%, 270px); margin: 0; --rot: 2deg; }
+.ba-float { position: absolute; bottom: 0; z-index: 2; width: clamp(180px, 58%, 270px); margin: 0; --rot: 2deg; }
+@media (min-width: 900px) { .ba-float { width: clamp(150px, 48%, 270px); } }
 .ba-float--r { right: -6px; }
 .ba-float--l { left: -6px; --rot: -2deg; }
 .ba-anchor--benefits .ba-float { width: clamp(140px, 30%, 300px); }
@@ -506,7 +508,11 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
   .reveal-on .zones--bento.is-in .zone--belly { transition-delay: .15s; }
   .reveal-on .zones--bento.is-in .zone--arms { transition-delay: .3s; }
 }
-@media (max-width: 599px) { .bento .zone__name { font-size: 18px; } .bento .zone__cap { padding: 28px 12px 10px; } }
+/* Телефон: лицо крупно по центру, живот и руки — во всю ширину под ним */
+@media (max-width: 599px) {
+  .bento { grid-template-columns: 1fr; }
+  .bento .zone--face { grid-row: auto; width: min(80vw, 320px); justify-self: center; height: auto; aspect-ratio: 9 / 16; }
+}
 
 /* Блок 4: «веер» из трёх роликов, при наведении раскрывается */
 .fan { position: relative; display: flex; justify-content: center; align-items: flex-end; margin: clamp(24px, 4vw, 48px) auto 0; padding-block: 20px 10px; }
@@ -521,7 +527,13 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
   .fan__card:hover { z-index: 3; }
   .fan .fan__card--c:hover { transform: translateY(-6px); }
 }
-@media (max-width: 599px) { .fan__frame { border-radius: 20px; } .fan__card--l, .fan__card--r { width: 34vw; } .fan__card--c { width: 44vw; } }
+@media (max-width: 599px) {
+  .fan { padding-inline: 0; }
+  .fan__frame { border-radius: 20px; }
+  .fan__card--l, .fan__card--r { width: 40vw; }
+  .fan__card--c { width: 54vw; }
+  .fan__card--l { margin-right: -12vw; } .fan__card--r { margin-left: -12vw; }
+}
 @media (prefers-reduced-motion: no-preference) {
   .reveal-on .fan[data-reveal] { opacity: 1; transform: none; }
   .reveal-on .fan .fan__card--l, .reveal-on .fan .fan__card--r { transform: none; opacity: 0; }
@@ -537,7 +549,7 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 .trio__frame { display: block; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 28px; background: var(--ice); box-shadow: 0 30px 50px -34px rgb(22 36 58 / .5); }
 .trio .ba-float__tag { --rot: 0deg; }
 @media (max-width: 719px) {
-  .trio { grid-template-columns: 1fr 1fr; }
+  .trio { grid-template-columns: 1fr 1fr; gap: 10px; margin-inline: calc(var(--gutter) * -.5); }
   .trio .benefits__photo { grid-column: 1 / -1; grid-row: 1; aspect-ratio: 4 / 3; border-radius: 22px; }
   .trio__frame { border-radius: 22px; }
 }
