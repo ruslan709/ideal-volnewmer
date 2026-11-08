@@ -428,35 +428,39 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 .tile--video video, .ba-card__video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* ——— До/после «коллажем»: карточка с роликом в белой рамке наезжает на угол фото блока ——— */
-.ba-anchor { position: relative; justify-self: center; width: 100%; padding-bottom: clamp(56px, 16%, 120px); }
+.ba-anchor { position: relative; justify-self: center; width: 100%; padding-bottom: clamp(90px, 26%, 200px); }
 .ba-anchor > figure:first-child { margin-inline: auto; justify-self: auto; }
 .ba-anchor--if { max-width: 468px; }
 .ba-anchor--prevention { max-width: 488px; }
 .ba-anchor--device { max-width: 428px; }
 .ba-anchor--about-device { max-width: 368px; }
-.ba-anchor--benefits { padding-bottom: clamp(90px, 14vw, 200px); }
-.ba-float { position: absolute; bottom: 0; z-index: 2; width: clamp(118px, 38%, 200px); margin: 0; --rot: 2.5deg; }
+.ba-anchor--benefits { padding-bottom: clamp(140px, 22vw, 330px); }
+.ba-float { position: absolute; bottom: 0; z-index: 2; width: clamp(150px, 48%, 270px); margin: 0; --rot: 2deg; }
 .ba-float--r { right: -6px; }
-.ba-float--l { left: -6px; --rot: -2.5deg; }
-.ba-anchor--benefits .ba-float { width: clamp(110px, 22%, 220px); }
+.ba-float--l { left: -6px; --rot: -2deg; }
+.ba-anchor--benefits .ba-float { width: clamp(140px, 30%, 300px); }
 .ba-anchor--benefits .ba-float--l { left: 6%; }
 .ba-anchor--benefits .ba-float--r { right: 6%; }
 .ba-float__frame {
-  display: block; box-sizing: content-box; aspect-ratio: 9 / 16; overflow: hidden; /* 9:16 — у самого ролика, рамка снаружи */
-  background: var(--white); border: 6px solid var(--white); border-radius: 2px;
-  box-shadow: 0 34px 60px -28px rgb(22 36 58 / .5), 0 0 0 1px rgb(22 36 58 / .04);
+  display: block; aspect-ratio: 9 / 16; overflow: hidden; /* как ролики звёзд: скругление 28px, мягкая тень */
+  background: var(--ice); border-radius: 28px; isolation: isolate;
+  box-shadow: 0 34px 60px -30px rgb(22 36 58 / .5), 0 0 0 1px rgb(22 36 58 / .04);
   transform: rotate(var(--rot)); transition: transform .7s var(--ease);
 }
 .ba-float:hover .ba-float__frame { transform: rotate(0deg) scale(1.03); }
 .ba-float__tag {
-  position: absolute; top: -12px; left: 50%; z-index: 1; transform: translateX(-50%) rotate(var(--rot));
+  position: absolute; top: -13px; left: 50%; z-index: 1; transform: translateX(-50%) rotate(var(--rot));
   padding: 6px 12px 5px; background: var(--ink); color: var(--white); white-space: nowrap;
   font: 500 9.5px/1.2 var(--sans); letter-spacing: .22em; border-bottom: 1px solid var(--gold);
 }
 .ba-card__video { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 900px) {
-  .ba-float--r { right: -64px; }
-  .ba-float--l { left: -64px; }
+  .ba-float--r { right: -30px; }
+  .ba-float--l { left: -30px; }
+}
+@media (min-width: 1360px) {
+  .ba-float--r { right: -90px; }
+  .ba-float--l { left: -90px; }
   .ba-anchor--benefits .ba-float--l { left: 4%; }
   .ba-anchor--benefits .ba-float--r { right: 4%; }
 }
@@ -468,7 +472,7 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 
 /* Блок 4 вместо слайдера: пара карточек */
 .ba-pair { display: flex; justify-content: center; gap: clamp(20px, 5vw, 64px); margin-top: clamp(24px, 4vw, 48px); padding-top: 14px; }
-.ba-float--static { position: relative; bottom: auto; width: min(42vw, 280px); }
+.ba-float--static { position: relative; bottom: auto; width: min(72vw, 360px); }
 .ba-float--static:nth-child(2) { --rot: 2.5deg; margin-top: clamp(24px, 5vw, 64px); }
 .ba-float__frame--slot { display: grid; place-items: center; background: linear-gradient(180deg, var(--white), var(--ice-soft)); }
 .ba-float__frame--slot .ba-slot { width: calc(100% - 16px); height: calc(100% - 16px); padding: 10px; }
@@ -512,7 +516,7 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
   background: var(--ice); border-radius: 28px;
   box-shadow: 0 26px 50px -30px rgb(22 36 58 / .38), 0 0 0 1px rgb(22 36 58 / .04);
 }
-@media (max-width: 599px) { .reel { border-radius: 22px; } }
+@media (max-width: 599px) { .reel, .ba-float__frame { border-radius: 22px; } }
 
 /* ——— Блок 4. До/после — «витрина»: ряд на всю ширину экрана, центральное видео крупное,
    соседние чуть меньше и приглушены (масштаб задаёт main.js по расстоянию до центра, --d от 0 до 1) ——— */
