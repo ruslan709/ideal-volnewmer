@@ -130,8 +130,7 @@
   <div class="container method__gallery" data-reveal>
     <figure class="tile tile--device"><picture><source type="image/avif" srcset="images/device_photos/device_front_nobg.avif"><source type="image/webp" srcset="images/device_photos/device_front_nobg.webp"><img src="images/device_photos/device_front_nobg.png" alt="Аппарат Volnewmer" width="274" height="500" loading="lazy" decoding="async"></picture></figure>
     <figure class="tile tile--video" data-ba><video class="ba-card__video" src="video/web/ba_01.mp4" poster="video/web/ba_01.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></figure>
-    <figure class="tile tile--slot" data-body-slot="1"><span class="ba-slot"><span class="ba-slot__tag">ДО / ПОСЛЕ</span><span class="ba-slot__title">Тело</span><span class="ba-slot__note">фото готовится</span></span></figure>
-  </div>
+    </div>
 </section>
 
 <!-- Блок 3. ЕСЛИ : -->
@@ -148,15 +147,10 @@
         <li>Вы просто не хотите синяков, отеков и долгой реабилитации, но при этом ожидаете реальный, видимый результат.</li>
       </ul>
     </div>
-    <figure class="arch if__photo">
+    <div class="ba-anchor ba-anchor--if"><figure class="arch if__photo">
       <picture><source type="image/avif" srcset="images/web/face_before_after-480.avif 480w, images/web/face_before_after-800.avif 800w, images/web/face_before_after-1200.avif 1200w" sizes="(max-width: 719px) calc(100vw - 40px), 460px"><source type="image/webp" srcset="images/web/face_before_after-480.webp 480w, images/web/face_before_after-800.webp 800w, images/web/face_before_after-1200.webp 1200w" sizes="(max-width: 719px) calc(100vw - 40px), 460px"><img src="images/web/face_before_after.jpg" alt="Одно лицо: половина до, половина после" width="1254" height="1254" loading="lazy" decoding="async"></picture>
-    </figure>
+    </figure><figure class="ba-float ba-float--l" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_02.mp4" poster="video/web/ba_02.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure></div>
     <p class="if__verdict" data-reveal>ПРОЙДИТЕ ПРОЦЕДУРУ НА АППАРАТЕ Volnewmer И ЭТО ЗНАЧИТЕЛЬНО МИНИМИЗИРУЕТ ПРОЯВЛЕНИЕ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ</p>
-  </div>
-  <!-- Пример до/после по ходу чтения -->
-  <div class="container ba-single ba-single--right" data-ba data-reveal>
-    <figure class="ba-card"><video class="ba-card__video" src="video/web/ba_02.mp4" poster="video/web/ba_02.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></figure>
-    <p class="ba-single__cap"><span class="ba-single__tag">ДО / ПОСЛЕ</span><span class="ba-single__text">Результат процедуры на&nbsp;аппарате Volnewmer</span></p>
   </div>
 </section>
 
@@ -184,11 +178,10 @@
       </div>
     </div>
     </template>
-    <!-- Пример до/после по ходу чтения -->
-  <div class="ba-single ba-single--center" data-ba data-reveal>
-    <figure class="ba-card"><video class="ba-card__video" src="video/web/ba_03.mp4" poster="video/web/ba_03.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></figure>
-    <p class="ba-single__cap"><span class="ba-single__tag">ДО / ПОСЛЕ</span><span class="ba-single__text">Результат процедуры на&nbsp;аппарате Volnewmer</span></p>
-  </div>
+    <!-- Вместо слайдера: пример до/после (место под фото тела вернуть, когда заказчик пришлёт фото) -->
+    <div class="ba-pair" data-reveal>
+      <figure class="ba-float ba-float--static" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_03.mp4" poster="video/web/ba_03.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure>
+      </div>
     <div class="center results__cta"><button class="btn" type="button" data-open-booking>Записаться на процедуру</button></div>
   </div>
 </section>
@@ -198,7 +191,7 @@
   <div class="container device__grid">
     <div class="device__visual">
       <h2 class="h-display">Аппарат Volnewmer</h2>
-      <figure class="device__photo"><picture><source type="image/avif" srcset="images/device_photos/device_side_nobg.avif"><source type="image/webp" srcset="images/device_photos/device_side_nobg.webp"><img src="images/device_photos/device_side_nobg.png" alt="Аппарат Volnewmer с манипулами" width="402" height="497" loading="lazy" decoding="async"></picture></figure>
+      <div class="ba-anchor ba-anchor--device"><figure class="device__photo"><picture><source type="image/avif" srcset="images/device_photos/device_side_nobg.avif"><source type="image/webp" srcset="images/device_photos/device_side_nobg.webp"><img src="images/device_photos/device_side_nobg.png" alt="Аппарат Volnewmer с манипулами" width="402" height="497" loading="lazy" decoding="async"></picture></figure><figure class="ba-float ba-float--r" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_04.mp4" poster="video/web/ba_04.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure></div>
     </div>
     <ol class="numbered" data-reveal>
       <li><span class="numbered__n">01</span><p>Подходит даже для самых чувствительных зон, в том числе периорбитальной области;</p></li>
@@ -209,28 +202,18 @@
       <li><span class="numbered__n">06</span><p>Высокая скорость обработки – до 60 минут;</p></li>
     </ol>
   </div>
-  <!-- Пример до/после по ходу чтения -->
-  <div class="container ba-single ba-single--left" data-ba data-reveal>
-    <figure class="ba-card"><video class="ba-card__video" src="video/web/ba_04.mp4" poster="video/web/ba_04.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></figure>
-    <p class="ba-single__cap"><span class="ba-single__tag">ДО / ПОСЛЕ</span><span class="ba-single__text">Результат процедуры на&nbsp;аппарате Volnewmer</span></p>
-  </div>
 </section>
 
 <!-- Блок 6. Профилактика старения -->
 <section class="section prevention" id="prevention" data-block="6">
   <div class="container prevention__grid">
-    <figure class="arch prevention__photo">
+    <div class="ba-anchor ba-anchor--prevention"><figure class="arch prevention__photo">
       <picture><source type="image/avif" srcset="images/web/result_mirror-480.avif 480w, images/web/result_mirror-800.avif 800w, images/web/result_mirror-1200.avif 1200w" sizes="(max-width: 719px) calc(100vw - 40px), 460px"><source type="image/webp" srcset="images/web/result_mirror-480.webp 480w, images/web/result_mirror-800.webp 800w, images/web/result_mirror-1200.webp 1200w" sizes="(max-width: 719px) calc(100vw - 40px), 460px"><img src="images/web/result_mirror.jpg" alt="Девушка улыбается своему отражению в зеркале" width="1254" height="1254" loading="lazy" decoding="async"></picture>
-    </figure>
+    </figure><figure class="ba-float ba-float--r" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_05.mp4" poster="video/web/ba_05.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure></div>
     <div class="prevention__text" data-reveal>
       <p class="h-display caps">ЭФФЕКТИВНО ДЛЯ ПРОФИЛАКТИКИ СТАРЕНИЯ</p>
       <button class="btn" type="button" data-open-booking>Записаться на процедуру</button>
     </div>
-  </div>
-  <!-- Пример до/после по ходу чтения -->
-  <div class="container ba-single ba-single--right" data-ba data-reveal>
-    <figure class="ba-card"><video class="ba-card__video" src="video/web/ba_05.mp4" poster="video/web/ba_05.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></figure>
-    <p class="ba-single__cap"><span class="ba-single__tag">ДО / ПОСЛЕ</span><span class="ba-single__text">Результат процедуры на&nbsp;аппарате Volnewmer</span></p>
   </div>
 </section>
 
@@ -270,7 +253,7 @@
 <!-- Блок 8. Об аппарате Volnewmer (раскрывающийся) -->
 <section class="section about-device" id="about-device" data-block="8">
   <div class="container about-device__grid">
-    <figure class="about-device__photo"><picture><source type="image/avif" srcset="images/device_photos/device_front_nobg.avif"><source type="image/webp" srcset="images/device_photos/device_front_nobg.webp"><img src="images/device_photos/device_front_nobg.png" alt="Аппарат Volnewmer" width="274" height="500" loading="lazy" decoding="async"></picture></figure>
+    <div class="ba-anchor ba-anchor--about-device"><figure class="about-device__photo"><picture><source type="image/avif" srcset="images/device_photos/device_front_nobg.avif"><source type="image/webp" srcset="images/device_photos/device_front_nobg.webp"><img src="images/device_photos/device_front_nobg.png" alt="Аппарат Volnewmer" width="274" height="500" loading="lazy" decoding="async"></picture></figure></div>
     <div class="reveal-more" data-expand>
       <h2 class="h-display">Об аппарате Volnewmer</h2>
       <button class="btn btn--ghost" type="button" aria-expanded="false" aria-controls="about-device-text">УЗНАТЬ <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button>
@@ -290,11 +273,6 @@
       </div>
     </div>
   </div>
-  <!-- Пример до/после по ходу чтения — место под фото тела (заказчик пришлёт) -->
-  <div class="container ba-single ba-single--left" data-ba data-reveal>
-    <figure class="ba-card ba-card--slot" data-body-slot="2"><span class="ba-slot"><span class="ba-slot__tag">ДО / ПОСЛЕ</span><span class="ba-slot__title">Тело</span><span class="ba-slot__note">фото готовится</span></span></figure>
-    <p class="ba-single__cap"><span class="ba-single__tag">ДО / ПОСЛЕ</span><span class="ba-single__text">Коррекция тела на&nbsp;аппарате Volnewmer</span></p>
-  </div>
 </section>
 
 <!-- Блок 9. Инфографика преимуществ -->
@@ -312,14 +290,9 @@
       <li class="benefit" style="--i:8"><svg class="benefit__icon" aria-hidden="true"><use href="#i-hourglass"/></svg><p>И ДЛЯ ПРОФИЛАКТИКИ СТАРЕНИЯ</p></li>
       <li class="benefit" style="--i:9"><svg class="benefit__icon" aria-hidden="true"><use href="#i-figure"/></svg><p>РАБОТАЕТ ПО ТЕЛУ И ЛИЦУ</p></li>
     </ul>
-    <figure class="benefits__photo" data-reveal>
+    <div class="ba-anchor ba-anchor--benefits"><figure class="benefits__photo" data-reveal>
       <picture><source type="image/avif" srcset="images/web/procedure_face_neck-480.avif 480w, images/web/procedure_face_neck-655.avif 655w" sizes="(max-width: 1299px) calc(100vw - 80px), 1170px"><source type="image/webp" srcset="images/web/procedure_face_neck-480.webp 480w, images/web/procedure_face_neck-655.webp 655w" sizes="(max-width: 1299px) calc(100vw - 80px), 1170px"><img src="images/web/procedure_face_neck.jpg" alt="Процедура на лице и шее на аппарате Volnewmer" width="655" height="468" loading="lazy" decoding="async"></picture>
-    </figure>
-  </div>
-  <!-- Пример до/после по ходу чтения -->
-  <div class="container ba-single ba-single--right" data-ba data-reveal>
-    <figure class="ba-card"><video class="ba-card__video" src="video/web/ba_06.mp4" poster="video/web/ba_06.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></figure>
-    <p class="ba-single__cap"><span class="ba-single__tag">ДО / ПОСЛЕ</span><span class="ba-single__text">Результат процедуры на&nbsp;аппарате Volnewmer</span></p>
+    </figure><figure class="ba-float ba-float--l" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_06.mp4" poster="video/web/ba_06.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure><figure class="ba-float ba-float--r" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_07.mp4" poster="video/web/ba_07.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure></div>
   </div>
 </section>
 
@@ -391,11 +364,6 @@
       </li>
     </ul>
   </div>
-  <!-- Пример до/после по ходу чтения — место под фото тела (заказчик пришлёт) -->
-  <div class="container ba-single ba-single--left" data-ba data-reveal>
-    <figure class="ba-card ba-card--slot" data-body-slot="3"><span class="ba-slot"><span class="ba-slot__tag">ДО / ПОСЛЕ</span><span class="ba-slot__title">Тело</span><span class="ba-slot__note">фото готовится</span></span></figure>
-    <p class="ba-single__cap"><span class="ba-single__tag">ДО / ПОСЛЕ</span><span class="ba-single__text">Коррекция тела на&nbsp;аппарате Volnewmer</span></p>
-  </div>
 </section>
 
 <!-- Блок 12. Вопрос – ответ -->
@@ -447,11 +415,6 @@
         <p>Процедура не привязана к конкретному возрасту — её делают и в качестве ранней профилактики в 30–35 лет, и как инструмент коррекции более выраженных возрастных изменений.</p>
       </div></details>
     </div>
-  </div>
-  <!-- Пример до/после по ходу чтения -->
-  <div class="container ba-single ba-single--right" data-ba data-reveal>
-    <figure class="ba-card"><video class="ba-card__video" src="video/web/ba_07.mp4" poster="video/web/ba_07.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></figure>
-    <p class="ba-single__cap"><span class="ba-single__tag">ДО / ПОСЛЕ</span><span class="ba-single__text">Результат процедуры на&nbsp;аппарате Volnewmer</span></p>
   </div>
 </section>
 

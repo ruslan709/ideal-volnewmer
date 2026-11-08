@@ -421,31 +421,61 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 @media (min-width: 720px) {
   .method__gallery { grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
   .method__gallery .tile:nth-child(2) { margin-top: 72px; }
+  .method__gallery:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 380px)); justify-content: center; gap: 56px; }
 }
 /* Ролик до/после и место под фото тела в галерее блока 2 — вертикальные 9:16, чтобы «ДО» и «ПОСЛЕ» не обрезались */
 .tile--video, .tile--slot { aspect-ratio: 9 / 16; }
 .tile--video video, .ba-card__video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-/* ——— Примеры «до/после» по одному по ходу страницы (слева / справа / по центру) ——— */
-.ba-single { display: flex; align-items: center; gap: clamp(20px, 4vw, 56px); margin-top: clamp(56px, 8vw, 112px); }
-.ba-single--right { flex-direction: row-reverse; }
-.ba-single--center { flex-direction: column; margin-top: clamp(40px, 5vw, 64px); }
-.ba-single .ba-card { flex: none; width: min(46vw, 300px); }
-.ba-card { aspect-ratio: 9 / 16; overflow: hidden; border-radius: var(--r); background: var(--ice-soft); box-shadow: 0 30px 50px -36px rgb(22 36 58 / .45); }
-.ba-single__cap { display: grid; gap: 10px; max-width: 280px; }
-.ba-single--right .ba-single__cap { text-align: right; justify-items: end; }
-.ba-single--center .ba-single__cap { text-align: center; justify-items: center; }
-.ba-single__tag { display: flex; align-items: center; gap: 14px; font: 500 11.5px/1.4 var(--sans); letter-spacing: .24em; color: var(--gold-text); }
-.ba-single__tag::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
-.ba-single--right .ba-single__tag { flex-direction: row-reverse; }
-.ba-single--center .ba-single__tag::before { display: none; }
-.ba-single__text { font: 300 clamp(20px, 2.2vw, 30px)/1.2 var(--serif); color: var(--ink); }
-@media (min-width: 900px) {
-  .ba-single--left { padding-left: 8%; }
-  .ba-single--right { padding-right: 8%; }
-  .ba-single .ba-card { width: 300px; }
-  .ba-single--center .ba-card { width: 340px; }
+/* ——— До/после «коллажем»: карточка с роликом в белой рамке наезжает на угол фото блока ——— */
+.ba-anchor { position: relative; justify-self: center; width: 100%; padding-bottom: clamp(56px, 16%, 120px); }
+.ba-anchor > figure:first-child { margin-inline: auto; justify-self: auto; }
+.ba-anchor--if { max-width: 468px; }
+.ba-anchor--prevention { max-width: 488px; }
+.ba-anchor--device { max-width: 428px; }
+.ba-anchor--about-device { max-width: 368px; }
+.ba-anchor--benefits { padding-bottom: clamp(90px, 14vw, 200px); }
+.ba-float { position: absolute; bottom: 0; z-index: 2; width: clamp(118px, 38%, 200px); margin: 0; --rot: 2.5deg; }
+.ba-float--r { right: -6px; }
+.ba-float--l { left: -6px; --rot: -2.5deg; }
+.ba-anchor--benefits .ba-float { width: clamp(110px, 22%, 220px); }
+.ba-anchor--benefits .ba-float--l { left: 6%; }
+.ba-anchor--benefits .ba-float--r { right: 6%; }
+.ba-float__frame {
+  display: block; box-sizing: content-box; aspect-ratio: 9 / 16; overflow: hidden; /* 9:16 — у самого ролика, рамка снаружи */
+  background: var(--white); border: 6px solid var(--white); border-radius: 2px;
+  box-shadow: 0 34px 60px -28px rgb(22 36 58 / .5), 0 0 0 1px rgb(22 36 58 / .04);
+  transform: rotate(var(--rot)); transition: transform .7s var(--ease);
 }
+.ba-float:hover .ba-float__frame { transform: rotate(0deg) scale(1.03); }
+.ba-float__tag {
+  position: absolute; top: -12px; left: 50%; z-index: 1; transform: translateX(-50%) rotate(var(--rot));
+  padding: 6px 12px 5px; background: var(--ink); color: var(--white); white-space: nowrap;
+  font: 500 9.5px/1.2 var(--sans); letter-spacing: .22em; border-bottom: 1px solid var(--gold);
+}
+.ba-card__video { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (min-width: 900px) {
+  .ba-float--r { right: -64px; }
+  .ba-float--l { left: -64px; }
+  .ba-anchor--benefits .ba-float--l { left: 4%; }
+  .ba-anchor--benefits .ba-float--r { right: 4%; }
+}
+/* Появление: карточка «вклеивается» чуть позже фото */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-on .ba-anchor .ba-float { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease) .35s, transform 1s var(--ease) .35s; }
+  .reveal-on .ba-anchor.is-seen .ba-float { opacity: 1; transform: none; }
+}
+
+/* Блок 4 вместо слайдера: пара карточек */
+.ba-pair { display: flex; justify-content: center; gap: clamp(20px, 5vw, 64px); margin-top: clamp(24px, 4vw, 48px); padding-top: 14px; }
+.ba-float--static { position: relative; bottom: auto; width: min(42vw, 280px); }
+.ba-float--static:nth-child(2) { --rot: 2.5deg; margin-top: clamp(24px, 5vw, 64px); }
+.ba-float__frame--slot { display: grid; place-items: center; background: linear-gradient(180deg, var(--white), var(--ice-soft)); }
+.ba-float__frame--slot .ba-slot { width: calc(100% - 16px); height: calc(100% - 16px); padding: 10px; }
+.ba-float__frame--slot .ba-slot__title { font-size: clamp(20px, 2.4vw, 32px); }
+.ba-float__frame--slot .ba-slot__tag { display: none; }
+.ba-float__frame--slot .ba-slot__note { font-size: 11px; }
+
 /* Место под фото тела до/после (заказчик пришлёт 3 фото) */
 .ba-card--slot, .tile--slot { display: grid; place-items: center; background: linear-gradient(180deg, var(--white), var(--ice-soft)); border: 1px solid var(--gold-line); box-shadow: none; }
 .ba-slot { display: grid; justify-items: center; gap: 8px; padding: 24px; text-align: center; position: relative; width: calc(100% - 28px); height: calc(100% - 28px); align-content: center; border: 1px dashed var(--gold-line); }

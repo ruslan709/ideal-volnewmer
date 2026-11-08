@@ -54,8 +54,8 @@ const byId = (id) => { const i = html.indexOf(`id="${id}"`); if (i < 0) return '
 ok(/<template id="results-slider">[\s\S]*data-row[\s\S]*<\/template>/.test(section(4)) && count(section(4).match(/<template[\s\S]*<\/template>/)?.[0] || '', /<video\b/g) === 7, 'block 4: old slider kept inside <template id="results-slider"> with 7 videos');
 const baVideos = [...html.matchAll(/video\/web\/(ba_\d\d)\.mp4/g)].map((m) => m[1]);
 ok(new Set(baVideos).size === 7, `all 7 new before/after videos placed once each: ${baVideos.join(',')}`);
-ok(count(html, /class="ba-single ba-single--/g) + count(html, /class="container ba-single ba-single--/g) >= 7, 'before/after examples scattered across page');
-ok(count(html, /data-body-slot="\d"/g) === 3, '3 places for body before/after photos');
+ok(count(html, /class="ba-anchor /g) >= 5, 'before/after cards overlaid on section photos across page');
+ok(!/фото готовится/.test(html), 'body photo placeholders removed for now');
 ok(!/face_lifting_lines|body_contouring_lines/.test(html), 'line drawings replaced by before/after');
 ok(count(section(7), /<video\b/g) === 5, `block 7 must have 5 videos, has ${count(section(7), /<video\b/g)}`);
 ok(/data-slider/.test(section(7)), 'block 7 must be a slider');

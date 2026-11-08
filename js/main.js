@@ -548,6 +548,12 @@
   initExpanders();
   initFaq();
   initInViewVideos('#results video, [data-ba] video');
+  (function () { // карточки до/после «вклеиваются» после появления фото
+    var anchors = document.querySelectorAll('.ba-anchor');
+    if (!('IntersectionObserver' in window) || reduceMotion) { anchors.forEach(function (a) { a.classList.add('is-seen'); }); return; }
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-seen'); io.unobserve(e.target); } }); }, { threshold: 0.25 });
+    anchors.forEach(function (a) { io.observe(a); });
+  })();
   document.querySelectorAll('[data-slider]').forEach(function (r) { initSlider(r, 'slider', '.slide'); });
   document.querySelectorAll('[data-row]').forEach(function (r) { initSlider(r, 'row', '.row__item'); });
   initBooking();

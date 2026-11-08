@@ -132,7 +132,7 @@ try {
     ok(baCount === 7, `${width}px: 7 scattered before/after videos, has ${baCount}`);
     await page.$eval('#results [data-ba] video', (v) => v.scrollIntoView({ block: 'center' }));
     await new Promise((r) => setTimeout(r, 800));
-    const inView = await page.$eval('#results [data-ba] video', (v) => ({ playing: !v.paused, ratio: +(v.getBoundingClientRect().height / v.getBoundingClientRect().width).toFixed(2) }));
+    const inView = await page.$eval('#results [data-ba] video', (v) => ({ playing: !v.paused, ratio: +(v.offsetHeight / v.offsetWidth).toFixed(2) }));
     ok(inView.playing && Math.abs(inView.ratio - 16 / 9) < 0.05, `${width}px: before/after video should play in view, 9:16 ${JSON.stringify(inView)}`);
 
     // ——— Правки заказчика — на свежей вкладке (длинный прогон с видео перегружает headless-Chrome) ———
