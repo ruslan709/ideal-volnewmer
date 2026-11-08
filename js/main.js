@@ -547,7 +547,7 @@
   initReveal();
   initExpanders();
   initFaq();
-  initInViewVideos('#results video, [data-ba] video');
+  initInViewVideos('#results video, [data-ba] video, .zone video');
   (function () { // карточки до/после «вклеиваются» после появления фото
     var anchors = document.querySelectorAll('.ba-anchor');
     if (!('IntersectionObserver' in window) || reduceMotion) { anchors.forEach(function (a) { a.classList.add('is-seen'); }); return; }

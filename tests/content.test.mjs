@@ -56,6 +56,8 @@ const baVideos = [...html.matchAll(/video\/web\/(ba_\d\d)\.mp4/g)].map((m) => m[
 ok(new Set(baVideos).size === 7, `all 7 new before/after videos placed once each: ${baVideos.join(',')}`);
 ok(count(html, /class="ba-anchor /g) >= 5, 'before/after cards overlaid on section photos across page');
 ok(!/фото готовится/.test(html), 'body photo placeholders removed for now');
+for (const z of ['belly', 'arms', 'neck', 'decollete']) ok(html.includes(`video/web/body_${z}.mp4`), `body result video placed: ${z}`);
+ok(/ЕСЛИ :[\s\S]*body_belly[\s\S]*if__verdict/.test(html), 'body videos next to the body text in block 3');
 ok(!/face_lifting_lines|body_contouring_lines/.test(html), 'line drawings replaced by before/after');
 ok(count(section(7), /<video\b/g) === 5, `block 7 must have 5 videos, has ${count(section(7), /<video\b/g)}`);
 ok(/data-slider/.test(section(7)), 'block 7 must be a slider');

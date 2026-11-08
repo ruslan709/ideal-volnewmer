@@ -34,6 +34,21 @@ for src in video/new_video/*.mp4; do
   fi
 done
 
+# 1в. Тело до/после (video/result_video, 1920×1080, слева «До», справа «После») → video/web/body_*.mp4 (1280×720, без звука)
+#     Имена по зоне; порядок файлов по алфавиту: руки, живот, декольте, шея.
+zones=(arms belly decollete neck); n=0
+for src in video/result_video/*.mp4; do
+  [ -f "$src" ] || continue
+  out="video/web/body_${zones[$n]:-extra$n}.mp4"; n=$((n+1))
+  if need "$out"; then
+    echo "body   $src → $out"
+    $FF -i "$src" -vf scale=1280:720 -c:v libx264 -preset veryfast -crf 26 -pix_fmt yuv420p -movflags +faststart -an "$out"
+  fi
+  if need "${out%.mp4}.webp"; then
+    $FF -ss 4 -i "$out" -frames:v 1 -q:v 3 "${out%.mp4}.jpg" && cwebp -quiet -q 70 -m 6 "${out%.mp4}.jpg" -o "${out%.mp4}.webp"
+  fi
+done
+
 # 2. Рилсы: ширина ≤720, два длинных со звуком (AAC 96k), остальные без звука
 for src in video_reels/reel_*.mp4; do
   name=$(basename "$src" .mp4); out="video_reels/web/$name.mp4"
