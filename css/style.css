@@ -549,7 +549,7 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 .trio__frame { display: block; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 28px; background: var(--ice); box-shadow: 0 30px 50px -34px rgb(22 36 58 / .5); }
 .trio .ba-float__tag { --rot: 0deg; }
 @media (max-width: 719px) {
-  .trio { grid-template-columns: 1fr 1fr; gap: 10px; margin-inline: calc(var(--gutter) * -.5); }
+  .trio { grid-template-columns: 1fr 1fr; gap: 10px; }
   .trio .benefits__photo { grid-column: 1 / -1; grid-row: 1; aspect-ratio: 4 / 3; border-radius: 22px; }
   .trio__frame { border-radius: 22px; }
 }
