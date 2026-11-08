@@ -489,6 +489,59 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 .zone--cap-top .zone__cap { top: 0; bottom: auto; align-items: flex-start; justify-content: center; padding: clamp(14px, 2vw, 22px) 16px 40px; background: linear-gradient(0deg, transparent, rgb(14 22 36 / .5)); }
 @media (max-width: 599px) { .zone { border-radius: 22px; } }
 
+/* «Плитка» лицо + тело: слева высокий ролик лица на две строки, справа живот и руки (16:9).
+   Колонки 0.633 : 1 — тогда высота лица (9:16) ровно равна двум горизонтальным роликам с зазором */
+.bento { --g: clamp(12px, 2vw, 28px); display: grid; grid-template-columns: minmax(0, .633fr) minmax(0, 1fr); grid-template-rows: auto auto; gap: var(--g); }
+.bento .zone--face { grid-row: 1 / span 2; aspect-ratio: auto; height: 100%; }
+.bento .zone { margin: 0; }
+.bento .zones__grid { display: contents; }
+@media (hover: hover) {
+  .bento:hover .zone { filter: saturate(.7) brightness(.92); transition: filter .5s var(--ease), transform .7s var(--ease); }
+  .bento .zone { transition: filter .5s var(--ease), transform .7s var(--ease); }
+  .bento .zone:hover { filter: none; transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-on .zones--bento .zone { opacity: 0; transform: translateY(28px) scale(.98); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+  .reveal-on .zones--bento.is-in .zone { opacity: 1; transform: none; }
+  .reveal-on .zones--bento.is-in .zone--belly { transition-delay: .15s; }
+  .reveal-on .zones--bento.is-in .zone--arms { transition-delay: .3s; }
+}
+@media (max-width: 599px) { .bento .zone__name { font-size: 18px; } .bento .zone__cap { padding: 28px 12px 10px; } }
+
+/* Блок 4: «веер» из трёх роликов, при наведении раскрывается */
+.fan { position: relative; display: flex; justify-content: center; align-items: flex-end; margin: clamp(24px, 4vw, 48px) auto 0; padding-block: 20px 10px; }
+.fan__card { position: relative; margin: 0; width: min(38vw, 300px); transition: transform .8s var(--ease), z-index 0s; }
+.fan__frame { display: block; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 28px; background: var(--ice); box-shadow: 0 34px 60px -30px rgb(22 36 58 / .55), 0 0 0 1px rgb(22 36 58 / .04); }
+.fan__card--l { transform: translateX(22%) rotate(-7deg) translateY(18px); z-index: 1; }
+.fan__card--c { z-index: 2; width: min(44vw, 340px); }
+.fan__card--r { transform: translateX(-22%) rotate(7deg) translateY(18px); z-index: 1; }
+@media (hover: hover) {
+  .fan:hover .fan__card--l { transform: translateX(-4%) rotate(-4deg) translateY(10px); }
+  .fan:hover .fan__card--r { transform: translateX(4%) rotate(4deg) translateY(10px); }
+  .fan__card:hover { z-index: 3; }
+  .fan .fan__card--c:hover { transform: translateY(-6px); }
+}
+@media (max-width: 599px) { .fan__frame { border-radius: 20px; } .fan__card--l, .fan__card--r { width: 34vw; } .fan__card--c { width: 44vw; } }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-on .fan[data-reveal] { opacity: 1; transform: none; }
+  .reveal-on .fan .fan__card--l, .reveal-on .fan .fan__card--r { transform: none; opacity: 0; }
+  .reveal-on .fan.is-in .fan__card--l { opacity: 1; transform: translateX(22%) rotate(-7deg) translateY(18px); transition: transform 1.1s var(--ease) .2s, opacity .6s .2s; }
+  .reveal-on .fan.is-in .fan__card--r { opacity: 1; transform: translateX(-22%) rotate(7deg) translateY(18px); transition: transform 1.1s var(--ease) .2s, opacity .6s .2s; }
+}
+.results__cta { margin-top: clamp(36px, 5vw, 64px); }
+
+/* Преимущества: ровный ряд ролик | фото | ролик одной высоты */
+.trio { display: grid; grid-template-columns: 9fr 23fr 9fr; gap: clamp(12px, 2vw, 28px); align-items: stretch; margin-top: clamp(56px, 6vw, 96px); }
+.trio .benefits__photo { margin: 0; aspect-ratio: auto; height: 100%; border-radius: 28px; }
+.trio__video { position: relative; margin: 0; }
+.trio__frame { display: block; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 28px; background: var(--ice); box-shadow: 0 30px 50px -34px rgb(22 36 58 / .5); }
+.trio .ba-float__tag { --rot: 0deg; }
+@media (max-width: 719px) {
+  .trio { grid-template-columns: 1fr 1fr; }
+  .trio .benefits__photo { grid-column: 1 / -1; grid-row: 1; aspect-ratio: 4 / 3; border-radius: 22px; }
+  .trio__frame { border-radius: 22px; }
+}
+
 /* Блок 4 вместо слайдера: пара карточек */
 .ba-pair { display: flex; justify-content: center; gap: clamp(20px, 5vw, 64px); margin-top: clamp(24px, 4vw, 48px); padding-top: 14px; }
 .ba-float--static { position: relative; bottom: auto; width: min(72vw, 360px); }
@@ -771,7 +824,7 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 .price-card--promo s { grid-area: old; justify-self: end; font: 300 22px/1 var(--serif); color: rgb(255 255 255 / .5); text-decoration-thickness: 1px; }
 .price-card--promo strong { grid-area: new; justify-self: start; text-align: left; margin: clamp(32px, 4vw, 48px) 0 20px -.03em; font: 300 clamp(60px, 7vw, 100px)/.9 var(--serif); color: var(--gold-light); white-space: nowrap; }
 .price-card--promo .price-card__proto { grid-area: proto; color: rgb(255 255 255 / .75); }
-.price__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 32px; margin-top: 36px; }
+.price__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px 32px; margin-top: clamp(36px, 5vw, 64px); }
 .price__note { color: var(--muted); font-size: 14px; }
 @media (max-width: 559px) {
   .price-card:not(.price-card--promo) { grid-template-columns: 1fr; }
@@ -783,7 +836,7 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
   .price__grid > .h-display { grid-column: 1; grid-row: 1; }
   .price__text { grid-column: 1; grid-row: 2; align-self: start; }
   .price__cards { grid-column: 2; grid-row: 1 / span 2; padding-top: .9em; }
-  .price__foot { grid-column: 2; }
+  .price__foot { grid-column: 1 / -1; }
 }
 
 /* ——— Блок 11. О нас ——— */

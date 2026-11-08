@@ -53,8 +53,8 @@ const byId = (id) => { const i = html.indexOf(`id="${id}"`); if (i < 0) return '
 // Слайдер до/после временно скрыт (<template>), новые ролики до/после раскиданы по странице по одному
 ok(/<template id="results-slider">[\s\S]*data-row[\s\S]*<\/template>/.test(section(4)) && count(section(4).match(/<template[\s\S]*<\/template>/)?.[0] || '', /<video\b/g) === 7, 'block 4: old slider kept inside <template id="results-slider"> with 7 videos');
 const baVideos = [...html.matchAll(/video\/web\/(ba_\d\d)\.mp4/g)].map((m) => m[1]);
-ok(new Set(baVideos).size === 7, `all 7 new before/after videos placed once each: ${baVideos.join(',')}`);
-ok(count(html, /class="ba-anchor /g) >= 5, 'before/after cards overlaid on section photos across page');
+ok(new Set(baVideos).size === 7, `all 7 new before/after videos placed: ${baVideos.join(',')}`);
+ok(/class="bento"/.test(html) && /class="fan"/.test(html) && /class="trio"/.test(html), 'before/after compositions: bento, fan, trio');
 ok(!/фото готовится/.test(html), 'body photo placeholders removed for now');
 for (const z of ['belly', 'arms', 'neck', 'decollete']) ok(html.includes(`video/web/body_${z}.mp4`), `body result video placed: ${z}`);
 ok(/ЕСЛИ :[\s\S]*body_belly[\s\S]*if__verdict/.test(html), 'body videos next to the body text in block 3');

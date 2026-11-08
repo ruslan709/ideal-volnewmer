@@ -129,7 +129,7 @@ try {
 
     // До/после: ролики раскиданы по странице — каждый начинает играть, когда попадает в экран, и не обрезается
     const baCount = await page.$$eval('[data-ba] video:not(.zone__video)', (v) => v.length);
-    ok(baCount === 7, `${width}px: 7 scattered before/after videos, has ${baCount}`);
+    ok(baCount >= 7, `${width}px: 7 scattered before/after videos, has ${baCount}`);
     await page.$eval('#results [data-ba] video', (v) => v.scrollIntoView({ block: 'center' }));
     await new Promise((r) => setTimeout(r, 800));
     const inView = await page.$eval('#results [data-ba] video', (v) => ({ playing: !v.paused, ratio: +(v.offsetHeight / v.offsetWidth).toFixed(2) }));

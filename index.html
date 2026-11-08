@@ -147,18 +147,22 @@
         <li>Вы просто не хотите синяков, отеков и долгой реабилитации, но при этом ожидаете реальный, видимый результат.</li>
       </ul>
     </div>
-    <div class="ba-anchor ba-anchor--if"><figure class="arch if__photo">
+    <figure class="arch if__photo">
       <picture><source type="image/avif" srcset="images/web/face_before_after-480.avif 480w, images/web/face_before_after-800.avif 800w, images/web/face_before_after-1200.avif 1200w" sizes="(max-width: 719px) calc(100vw - 40px), 460px"><source type="image/webp" srcset="images/web/face_before_after-480.webp 480w, images/web/face_before_after-800.webp 800w, images/web/face_before_after-1200.webp 1200w" sizes="(max-width: 719px) calc(100vw - 40px), 460px"><img src="images/web/face_before_after.jpg" alt="Одно лицо: половина до, половина после" width="1254" height="1254" loading="lazy" decoding="async"></picture>
-    </figure><figure class="ba-float ba-float--r" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_02.mp4" poster="video/web/ba_02.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure></div>
-    <!-- Тело до/после (video/result_video) -->
-    <div class="zones" data-reveal>
-      <p class="zones__label"><span>ТЕЛО · <span class="nowrap">ДО / ПОСЛЕ</span></span></p>
-      <div class="zones__grid">
-        <figure class="zone" data-ba>
+    </figure>
+    <!-- Лицо + тело до/после: «плитка» — высокий ролик лица и два горизонтальных (живот, руки) -->
+    <div class="zones zones--bento" data-reveal>
+      <p class="zones__label"><span>ЛИЦО И ТЕЛО · <span class="nowrap">ДО / ПОСЛЕ</span></span></p>
+      <div class="bento">
+        <figure class="zone zone--face" data-ba>
+          <video class="zone__video" src="video/web/ba_02.mp4" poster="video/web/ba_02.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Лицо: до и после процедуры"></video>
+          <figcaption class="zone__cap"><span class="zone__name">Лицо</span></figcaption>
+        </figure>
+        <figure class="zone zone--belly" data-ba>
           <video class="zone__video" src="video/web/body_belly.mp4" poster="video/web/body_belly.webp" muted playsinline loop preload="metadata" width="1280" height="720" aria-label="Живот: до и после процедуры"></video>
           <figcaption class="zone__cap"><span class="zone__name">Живот</span></figcaption>
         </figure>
-        <figure class="zone" data-ba>
+        <figure class="zone zone--arms" data-ba>
           <video class="zone__video" src="video/web/body_arms.mp4" poster="video/web/body_arms.webp" muted playsinline loop preload="metadata" width="1280" height="720" aria-label="Руки: до и после процедуры"></video>
           <figcaption class="zone__cap"><span class="zone__name">Руки</span></figcaption>
         </figure>
@@ -192,10 +196,12 @@
       </div>
     </div>
     </template>
-    <!-- Вместо слайдера: пример до/после (место под фото тела вернуть, когда заказчик пришлёт фото) -->
-    <div class="ba-pair" data-reveal>
-      <figure class="ba-float ba-float--static" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_03.mp4" poster="video/web/ba_03.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure>
-      </div>
+    <!-- Вместо слайдера: «веер» из трёх роликов до/после (при наведении раскрывается) -->
+    <div class="fan" data-reveal>
+      <figure class="fan__card fan__card--l" data-ba><span class="fan__frame"><video class="ba-card__video" src="video/web/ba_01.mp4" poster="video/web/ba_01.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Лицо: до и после процедуры"></video></span></figure>
+      <figure class="fan__card fan__card--c" data-ba><span class="fan__frame"><video class="ba-card__video" src="video/web/ba_03.mp4" poster="video/web/ba_03.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Лицо: до и после процедуры"></video></span></figure>
+      <figure class="fan__card fan__card--r" data-ba><span class="fan__frame"><video class="ba-card__video" src="video/web/ba_05.mp4" poster="video/web/ba_05.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Лицо: до и после процедуры"></video></span></figure>
+    </div>
     <div class="center results__cta"><button class="btn" type="button" data-open-booking>Записаться на процедуру</button></div>
   </div>
 </section>
@@ -304,10 +310,13 @@
       <li class="benefit" style="--i:8"><svg class="benefit__icon" aria-hidden="true"><use href="#i-hourglass"/></svg><p>И ДЛЯ ПРОФИЛАКТИКИ СТАРЕНИЯ</p></li>
       <li class="benefit" style="--i:9"><svg class="benefit__icon" aria-hidden="true"><use href="#i-figure"/></svg><p>РАБОТАЕТ ПО ТЕЛУ И ЛИЦУ</p></li>
     </ul>
-    <div class="ba-anchor ba-anchor--benefits"><figure class="benefits__photo" data-reveal>
+    <div class="trio" data-reveal>
+      <figure class="trio__video" data-ba><span class="trio__frame"><video class="ba-card__video" src="video/web/ba_06.mp4" poster="video/web/ba_06.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Лицо: до и после процедуры"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure>
+      <figure class="benefits__photo">
       <picture><source type="image/avif" srcset="images/web/procedure_face_neck-480.avif 480w, images/web/procedure_face_neck-655.avif 655w" sizes="(max-width: 1299px) calc(100vw - 80px), 1170px"><source type="image/webp" srcset="images/web/procedure_face_neck-480.webp 480w, images/web/procedure_face_neck-655.webp 655w" sizes="(max-width: 1299px) calc(100vw - 80px), 1170px"><img src="images/web/procedure_face_neck.jpg" alt="Процедура на лице и шее на аппарате Volnewmer" width="655" height="468" loading="lazy" decoding="async"></picture>
-    </figure><figure class="ba-float ba-float--l" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_06.mp4" poster="video/web/ba_06.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure><figure class="ba-float ba-float--r" data-ba><span class="ba-float__frame"><video class="ba-card__video" src="video/web/ba_07.mp4" poster="video/web/ba_07.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Результат до и после"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure></div>
-  </div>
+    </figure>
+      <figure class="trio__video" data-ba><span class="trio__frame"><video class="ba-card__video" src="video/web/ba_07.mp4" poster="video/web/ba_07.webp" muted playsinline loop preload="metadata" width="720" height="1280" aria-label="Лицо: до и после процедуры"></video></span><figcaption class="ba-float__tag">ДО / ПОСЛЕ</figcaption></figure>
+    </div>
 </section>
 
 <!-- Блок 10. Стоимость -->
