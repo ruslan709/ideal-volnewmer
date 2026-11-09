@@ -548,6 +548,19 @@
   initExpanders();
   initFaq();
   initInViewVideos('#results video, [data-ba] video, .zone video');
+  // Свайп роликов в «Результатах»: подсвечиваем точку текущего ролика
+  (function () {
+    var fan = document.querySelector('.fan'), dots = document.querySelectorAll('.fan__dots span');
+    if (!fan || !dots.length) return;
+    fan.addEventListener('scroll', function () {
+      var cards = fan.children, mid = fan.scrollLeft + fan.clientWidth / 2, best = 0, d = Infinity;
+      for (var i = 0; i < cards.length; i++) {
+        var c = cards[i].offsetLeft + cards[i].offsetWidth / 2 - fan.offsetLeft;
+        if (Math.abs(c - mid) < d) { d = Math.abs(c - mid); best = i; }
+      }
+      for (var j = 0; j < dots.length; j++) dots[j].classList.toggle('is-on', j === best);
+    }, { passive: true });
+  })();
   (function () { // карточки до/после «вклеиваются» после появления фото
     var anchors = document.querySelectorAll('.ba-anchor');
     if (!('IntersectionObserver' in window) || reduceMotion) { anchors.forEach(function (a) { a.classList.add('is-seen'); }); return; }

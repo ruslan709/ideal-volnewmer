@@ -55,7 +55,7 @@ try {
       const w = window.innerWidth;
       const bad = [];
       document.querySelectorAll('body *').forEach((el) => {
-        if (el.closest('.slider__track, .row__track, .sprite, .hp, svg')) return;
+        if (el.closest('.slider__track, .row__track, .fan > *, .sprite, .hp, svg')) return;
         const r = el.getBoundingClientRect();
         if (r.width && r.right > w + 1) bad.push(`${el.tagName.toLowerCase()}.${[...el.classList].join('.')} → ${Math.round(r.right)}`);
       });

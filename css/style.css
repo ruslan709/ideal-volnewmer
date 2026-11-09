@@ -515,31 +515,18 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 }
 
 /* Блок 4: «веер» из трёх роликов, при наведении раскрывается */
-.fan { position: relative; display: flex; justify-content: center; align-items: flex-end; margin: clamp(24px, 4vw, 48px) auto 0; padding-block: 20px 10px; }
-.fan__card { position: relative; margin: 0; width: min(38vw, 300px); transition: transform .8s var(--ease), z-index 0s; }
+/* Результаты: ролики без наложений. ПК — ровный ряд из трёх; телефон — свайп, один ролик на экран */
+.fan { display: flex; justify-content: center; gap: clamp(16px, 2.4vw, 32px); margin: clamp(24px, 4vw, 48px) auto 0; }
+.fan__card { margin: 0; flex: 0 1 320px; min-width: 0; }
 .fan__frame { display: block; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 28px; background: var(--ice); box-shadow: 0 34px 60px -30px rgb(22 36 58 / .55), 0 0 0 1px rgb(22 36 58 / .04); }
-.fan__card--l { transform: translateX(22%) rotate(-7deg) translateY(18px); z-index: 1; }
-.fan__card--c { z-index: 2; width: min(44vw, 340px); }
-.fan__card--r { transform: translateX(-22%) rotate(7deg) translateY(18px); z-index: 1; }
-@media (hover: hover) {
-  .fan:hover .fan__card--l { transform: translateX(-4%) rotate(-4deg) translateY(10px); }
-  .fan:hover .fan__card--r { transform: translateX(4%) rotate(4deg) translateY(10px); }
-  .fan__card:hover { z-index: 3; }
-  .fan .fan__card--c:hover { transform: translateY(-6px); }
+@media (max-width: 719px) {
+  .fan { justify-content: flex-start; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 calc((100% - min(78vw, 360px)) / 2) 24px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .fan::-webkit-scrollbar { display: none; }
+  .fan__card { flex: 0 0 min(78vw, 360px); scroll-snap-align: center; }
+  .fan__frame { border-radius: 22px; }
 }
-@media (max-width: 599px) {
-  .fan { padding-inline: 0; }
-  .fan__frame { border-radius: 20px; }
-  .fan__card--l, .fan__card--r { width: 40vw; }
-  .fan__card--c { width: 54vw; }
-  .fan__card--l { margin-right: -12vw; } .fan__card--r { margin-left: -12vw; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .reveal-on .fan[data-reveal] { opacity: 1; transform: none; }
-  .reveal-on .fan .fan__card--l, .reveal-on .fan .fan__card--r { transform: none; opacity: 0; }
-  .reveal-on .fan.is-in .fan__card--l { opacity: 1; transform: translateX(22%) rotate(-7deg) translateY(18px); transition: transform 1.1s var(--ease) .2s, opacity .6s .2s; }
-  .reveal-on .fan.is-in .fan__card--r { opacity: 1; transform: translateX(-22%) rotate(7deg) translateY(18px); transition: transform 1.1s var(--ease) .2s, opacity .6s .2s; }
-}
+.fan__dots { display: none; }
+@media (max-width: 719px) { .fan__dots { display: flex; justify-content: center; gap: 8px; margin-top: 4px; } .fan__dots span { width: 7px; height: 7px; border-radius: 50%; background: rgb(22 36 58 / .2); transition: background .3s; } .fan__dots span.is-on { background: var(--ink); } }
 .results__cta { margin-top: clamp(36px, 5vw, 64px); }
 
 /* Преимущества: ровный ряд ролик | фото | ролик одной высоты */
@@ -1160,3 +1147,8 @@ section[id], footer[id], .faq__item[id] { scroll-margin-top: calc(var(--header-h
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* ДО/ПОСЛЕ под фото: отдельным блоком, без наложения на основную картинку */
+.ba-anchor, .ba-anchor--benefits { padding-bottom: 0; display: grid; justify-items: center; gap: clamp(36px, 5vw, 56px); }
+.ba-float, .ba-float--l, .ba-float--r { position: relative; inset: auto; width: min(78vw, 340px); --rot: 0deg; }
+.ba-float:hover .ba-float__frame { transform: none; }
