@@ -95,7 +95,7 @@ for (const f of ['licenses.html', 'privacy.html']) {
   }
 }
 const lic = existsSync(new URL('licenses.html', root)) ? readFileSync(new URL('licenses.html', root), 'utf8') : '';
-ok((lic.match(/class="doc"/g) || []).length === 14, 'licenses.html: 14 documents');
+ok((lic.match(/class="doc"/g) || []).length === 15, 'licenses.html: 15 documents');
 const pol = existsSync(new URL('privacy.html', root)) ? readFileSync(new URL('privacy.html', root), 'utf8') : '';
 ok((pol.match(/class="legal__h"/g) || []).length === 12 && /<table class="legal__table"/.test(pol) && !/ПРОВЕРИТЬ|TODO|class="todo"|\{(OPERATOR|SITE|EMAIL)\}/.test(pol) && !/философские/.test(pol) && /7714970906/.test(pol), 'privacy.html: 12 sections, table 6 replaced, no TODO plates');
 ok(/<s\b[^>]*>59[  ]|<s\b[^>]*>59&nbsp;900/.test(section(10)), 'block 10: promo card old price struck through');

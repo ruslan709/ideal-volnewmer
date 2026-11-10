@@ -268,7 +268,7 @@ try {
       ok(ov, `${width}px ${f}: horizontal overflow`);
       if (f === 'licenses.html') {
         const n = await page.$$eval('.doc', (d) => d.length);
-        ok(n === 14, `${f}: 14 docs, has ${n}`);
+        ok(n === 15, `${f}: 15 docs, has ${n}`);
         await page.click('.doc[data-doc] .doc__open');
         await page.waitForFunction(() => document.getElementById('lightbox').open && document.querySelector('.lightbox__img').complete && document.querySelector('.lightbox__img').naturalWidth > 0, { timeout: 4000 }).catch(() => {});
         const a = await page.evaluate(() => ({ open: document.getElementById('lightbox').open, count: document.querySelector('.lightbox__count').textContent }));
@@ -289,7 +289,7 @@ try {
         await page.mouse.click(5, Math.round((await page.evaluate(() => innerHeight)) / 2) - 120);
         await page.waitForFunction(() => !document.getElementById('lightbox').open, { timeout: 1500 }).catch(() => {});
         const closedBg = await page.$eval('#lightbox', (d) => !d.open);
-        ok(a.open && a.count === '1 / 14' && b === '2 / 14' && c === '14 / 14' && closedEsc && closedX && closedBg, `${width}px lightbox ${JSON.stringify({ a, b, c, closedEsc, closedX, closedBg })}`);
+        ok(a.open && a.count === '1 / 15' && b === '2 / 15' && c === '15 / 15' && closedEsc && closedX && closedBg, `${width}px lightbox ${JSON.stringify({ a, b, c, closedEsc, closedX, closedBg })}`);
         // «Вопросы → Противопоказания» с другой страницы: главная + раскрытый вопрос
         if (width === 1440) {
           await page.hover('.nav__item--sub > .nav__link');
